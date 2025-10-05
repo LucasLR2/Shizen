@@ -23,7 +23,7 @@ Shizen (自然) means "nature" or "natural" in Japanese. This application embodi
 
 ### Option 1: Use Online (Recommended)
 
-Visit the live application at: **[https://lucaslr2.github.io/shizen/](https://lucaslr2.github.io/shizen/)**
+Visit the live application at: **[https://lucaslr2.github.io/Shizen/](https://lucaslr2.github.io/Shizen/)**
 
 No installation required! Just open the link and start using Shizen directly in your browser.
 
