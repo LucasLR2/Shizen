@@ -234,35 +234,58 @@ function renderAccounts() {
             </div>
         `;
     } else {
-        accountsList.innerHTML = appData.accounts.map((account, index) => `
-            <div class="card account-card ${account.active === false ? 'inactive' : ''}">
+        // Agrupar cuentas por categoría
+        const grouped = {};
+        appData.accounts.forEach((account, index) => {
+            const category = account.platform.toLowerCase();
+            if (!grouped[category]) {
+                grouped[category] = [];
+            }
+            grouped[category].push({ account, originalIndex: index });
+        });
+
+        // Ordenar categorías por cantidad (ascendente: menos cuentas primero)
+        const sortedCategories = Object.keys(grouped).sort((a, b) => {
+            return grouped[a].length - grouped[b].length;
+        });
+
+        // Crear array ordenado de cuentas
+        const sortedAccounts = [];
+        sortedCategories.forEach(category => {
+            grouped[category].forEach(item => {
+                sortedAccounts.push(item);
+            });
+        });
+
+        accountsList.innerHTML = sortedAccounts.map(item => `
+            <div class="card account-card ${item.account.active === false ? 'inactive' : ''}">
                 <div class="account-header">
                     <div class="account-icon">
                         <i data-lucide="key"></i>
                     </div>
                     <div class="account-info">
-                        <h3>${account.platform} <span class="category-badge">${getCategoryCount(account.platform)}</span></h3>
-                        <p>${account.username}</p>
+                        <h3>${item.account.platform} <span class="category-badge">${getCategoryCount(item.account.platform)}</span></h3>
+                        <p>${item.account.username}</p>
                     </div>
                 </div>
                 <div class="account-actions">
-                    <button class="btn-icon" onclick="copyToClipboard('${account.username}')" title="Copiar usuario">
+                    <button class="btn-icon" onclick="copyToClipboard('${item.account.username}')" title="Copiar usuario">
                         <i data-lucide="user"></i>
                     </button>
-                    <button class="btn-icon" onclick="copyToClipboard('${account.password}')" title="Copiar contraseña">
+                    <button class="btn-icon" onclick="copyToClipboard('${item.account.password}')" title="Copiar contraseña">
                         <i data-lucide="key"></i>
                     </button>
-                    <button class="btn-icon" onclick="toggleAccountStatus(${index})" title="${account.active === false ? 'Activar cuenta' : 'Desactivar cuenta'}">
+                    <button class="btn-icon" onclick="toggleAccountStatus(${item.originalIndex})" title="${item.account.active === false ? 'Activar cuenta' : 'Desactivar cuenta'}">
                         <i data-lucide="power"></i>
                     </button>
-                    <button class="btn-icon" onclick="editAccount(${index})" title="Editar">
+                    <button class="btn-icon" onclick="editAccount(${item.originalIndex})" title="Editar">
                         <i data-lucide="edit"></i>
                     </button>
-                    <button class="btn-icon btn-danger" onclick="deleteAccount(${index})" title="Eliminar">
+                    <button class="btn-icon btn-danger" onclick="deleteAccount(${item.originalIndex})" title="Eliminar">
                         <i data-lucide="trash-2"></i>
                     </button>
                 </div>
-                ${account.notes ? `<div class="account-notes">${account.notes}</div>` : ''}
+                ${item.account.notes ? `<div class="account-notes">${item.account.notes}</div>` : ''}
             </div>
         `).join('');
     }
