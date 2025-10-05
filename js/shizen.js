@@ -1366,55 +1366,42 @@ function updateSelectedSuggestion(items, index) {
 }
 
 function showTimerCompleteNotification() {
-    // Crear notificación estilo Discord (simple y minimalista)
+    // Crear notificación personalizada grande
     const existingNotif = document.getElementById('timerCompleteNotification');
     if (existingNotif) existingNotif.remove();
 
     const notif = document.createElement('div');
     notif.id = 'timerCompleteNotification';
-    notif.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #2f3136;
-        color: #dcddde;
-        padding: 16px 20px;
-        border-radius: 8px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-        z-index: 9999;
-        font-size: 14px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 280px;
-        animation: slideInRight 0.3s ease-out;
-    `;
-    
     notif.innerHTML = `
         <div style="
-            width: 4px;
-            height: 48px;
-            background: #5865f2;
-            border-radius: 4px;
-            flex-shrink: 0;
-        "></div>
-        <div>
-            <div style="font-weight: 600; margin-bottom: 4px;">Temporizador</div>
-            <div style="color: #b9bbbe; font-size: 13px;">Tiempo completado</div>
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF5252, #ff6b6b);
+            color: white;
+            padding: 3rem 4rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(255, 82, 82, 0.6);
+            z-index: 9999;
+            text-align: center;
+            animation: timerNotifPulse 0.5s ease-in-out 3;
+            font-size: 2rem;
+            font-weight: 700;
+        ">
+            ⏰ ¡Tiempo completado! 🎉
         </div>
     `;
-    
     document.body.appendChild(notif);
 
-    // Agregar animación CSS
+    // Agregar animación CSS si no existe
     if (!document.getElementById('timerNotifStyle')) {
         const style = document.createElement('style');
         style.id = 'timerNotifStyle';
         style.textContent = `
-            @keyframes slideInRight {
-                from { transform: translateX(400px); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
+            @keyframes timerNotifPulse {
+                0%, 100% { transform: translate(-50%, -50%) scale(1); }
+                50% { transform: translate(-50%, -50%) scale(1.1); }
             }
         `;
         document.head.appendChild(style);
@@ -1423,18 +1410,18 @@ function showTimerCompleteNotification() {
     // Intentar notificación del sistema (funcionará en producción)
     if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('Shizen - Temporizador', {
-            body: 'Tiempo completado',
+            body: '¡Tiempo completado! 🎉',
             icon: 'resources/logo-shizen-sf.png',
             tag: 'timer-complete',
             requireInteraction: true
         });
     }
     
-    // Hacer parpadear el título
+    // Hacer parpadear el título de la página
     let flashCount = 0;
     const originalTitle = document.title;
     const flashInterval = setInterval(() => {
-        document.title = flashCount % 2 === 0 ? '⏰ Tiempo!' : originalTitle;
+        document.title = flashCount % 2 === 0 ? '🔔 ¡TIEMPO!' : originalTitle;
         flashCount++;
         if (flashCount > 10) {
             clearInterval(flashInterval);
@@ -1442,11 +1429,15 @@ function showTimerCompleteNotification() {
         }
     }, 500);
 
-    // Quitar después de 5 segundos
+    // Quitar después de 4 segundos
     setTimeout(() => {
-        notif.style.animation = 'slideInRight 0.3s ease-out reverse';
-        setTimeout(() => notif.remove(), 300);
-    }, 5000);
+        notif.style.opacity = '0';
+        notif.style.transition = 'opacity 0.5s';
+        setTimeout(() => notif.remove(), 500);
+    }, 4000);
+
+    // También mostrar la notificación normal
+    showNotification('¡Tiempo completado! 🎉', 'success');
 }
 
 function showNotification(message, type = 'success') {
