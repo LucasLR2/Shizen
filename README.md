@@ -170,7 +170,7 @@ shizen/
 ## 🎯 Roadmap
 
 - [x] Clipboard Manager implementation
-- [ ] Pomodoro Timer with animated hourglass and particle effects
+- [ ] Pomodoro timer with eye-catching clock and particle effects
 - [ ] Search and filter functionality for accounts
 - [ ] Configuration page with basic settings
 - [ ] Profile page with basic options
