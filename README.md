@@ -170,6 +170,7 @@ shizen/
 ## 🎯 Roadmap
 
 - [x] Clipboard Manager implementation
+- [ ] Pomodoro Timer with animated hourglass and particle effects
 - [ ] Search functionality across accounts and notes
 - [ ] Dark/Light theme toggle
 - [ ] Custom categories with icons
