@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shizen - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/shizen-styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="mainHeader">
+        <div class="logo" onclick="showSection('dashboard')">
+            <img src="resources/logo-shizen-sf.png" alt="Shizen" class="logo-icon">
+        </div>
+        
+        <nav class="header-nav">
+            <div class="header-nav-item active" data-section="dashboard">
+                <span>Dashboard</span>
+            </div>
+            <div class="header-nav-item" data-section="shop" id="navShop">
+                <span>Tienda</span>
+            </div>
+            <div class="header-nav-item" data-section="configuration" id="navConfiguration">
+                <span>Configuración</span>
+            </div>
+        </nav>
+
+        <div class="user-info" onclick="toggleProfileDropdown()">
+            <img id="headerProfilePic" src="" alt="Profile" class="user-avatar">
+            <span id="headerProfileName">Usuario</span>
+            <i data-lucide="chevron-down"></i>
+        </div>
+
+        <div class="profile-dropdown" id="profileDropdown">
+            <div class="dropdown-item" onclick="exportData()">
+                <i data-lucide="download"></i>
+                <span>Exportar datos</span>
+            </div>
+            <div class="dropdown-item" onclick="logout()">
+                <i data-lucide="log-out"></i>
+                <span>Cerrar sesión</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container" id="mainContainer">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="nav-section-title">Herramientas</div>
+            <nav class="nav">
+                <div class="nav-item" data-section="accounts" id="navAccountsSidebar">
+                    <i data-lucide="key" class="nav-icon"></i>
+                    <span class="nav-text">Cuentas</span>
+                </div>
+                <div class="nav-item" data-section="clipboard" id="navClipboardSidebar">
+                    <i data-lucide="clipboard" class="nav-icon"></i>
+                    <span class="nav-text">Portapapeles</span>
+                </div>
+                <div class="nav-item" data-section="notes" id="navNotesSidebar">
+                    <i data-lucide="sticky-note" class="nav-icon"></i>
+                    <span class="nav-text">Notas</span>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Content -->
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="section-dashboard" class="section active">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Dashboard</h1>
+                        <p class="section-description">Resumen general de tu información</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #FF5252, #ff6b6b);">
+                            <i data-lucide="key"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="statsAccounts">0</div>
+                            <div class="stat-label">Cuentas guardadas</div>
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #81C784, #66BB6A);">
+                            <i data-lucide="clipboard"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="statsClipboard">0</div>
+                            <div class="stat-label">Items en portapapeles</div>
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #64B5F6, #42A5F5);">
+                            <i data-lucide="sticky-note"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="statsNotes">0</div>
+                            <div class="stat-label">Notas creadas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card welcome-card">
+                    <h2>¡Bienvenido/a de vuelta, <span id="welcomeName">Usuario</span>!</h2>
+                    <p>Tu espacio personal para gestionar cuentas, portapapeles y notas de forma segura.</p>
+                </div>
+            </section>
+
+            <!-- Accounts Section -->
+            <section id="section-accounts" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Gestión de Cuentas</h1>
+                        <p class="section-description">Administra tus credenciales de forma segura</p>
+                    </div>
+                    <button class="btn-primary" onclick="openAccountModal()">
+                        <i data-lucide="plus"></i>
+                        Nueva cuenta
+                    </button>
+                </div>
+
+                <div id="accountsList" class="accounts-grid">
+                    <!-- Accounts will be rendered here -->
+                </div>
+            </section>
+
+            <!-- Notes Section -->
+            <section id="section-notes" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Notas</h1>
+                        <p class="section-description">Tus apuntes y recordatorios</p>
+                    </div>
+                    <button class="btn-primary" onclick="openNoteModal()">
+                        <i data-lucide="plus"></i>
+                        Nueva nota
+                    </button>
+                </div>
+
+                <div id="notesList" class="notes-grid">
+                    <!-- Notes will be rendered here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Account Modal -->
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="accountModalTitle">Nueva Cuenta</h2>
+                <button class="modal-close" onclick="closeAccountModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Categoría</label>
+                    <div class="autocomplete-wrapper">
+                        <input type="text" id="accountPlatform" class="input" placeholder="Ej: Gmail, Instagram" autocomplete="off">
+                        <div id="categorySuggestions" class="suggestions-dropdown"></div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Usuario</label>
+                    <input type="text" id="accountUsername" class="input" placeholder="nombre@ejemplo.com">
+                </div>
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="accountPassword" class="input" placeholder="••••••••">
+                        <button class="password-toggle" onclick="togglePasswordVisibility('accountPassword')">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Notas (opcional)</label>
+                    <textarea id="accountNotes" class="input" rows="3" placeholder="Información adicional..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeAccountModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveAccount()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="noteModalTitle">Nueva Nota</h2>
+                <button class="modal-close" onclick="closeNoteModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Título</label>
+                    <input type="text" id="noteTitle" class="input" placeholder="Título de la nota">
+                </div>
+                <div class="input-group">
+                    <label>Contenido</label>
+                    <textarea id="noteContent" class="input" rows="8" placeholder="Escribe tu nota aquí..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeNoteModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveNote()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/shizen.js"></script>
+</body>
+</html>

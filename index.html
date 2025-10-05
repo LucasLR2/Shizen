@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shizen - Bienvenida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/login-styles.css">
+</head>
+<body>
+    <div class="startup-modal">
+        <div class="startup-modal-content">
+            <div class="welcome-left">
+                <img src="resources/logo-shizen-sf.png" alt="Shizen" class="welcome-logo">
+                <h1 class="welcome-title">Bienvenido/a</h1>
+                <div class="welcome-divider"></div>
+                <p class="welcome-description">
+                    Shizen es un espacio donde la tecnología y la calma se encuentran. Un entorno local para gestionar tus herramientas con equilibrio, sin distracciones ni dependencias externas. Inspirado en la armonía japonesa, simple, fluido y personal.
+                </p>
+            </div>
+            
+            <div class="welcome-right">
+                <div class="welcome-card">
+                    <div class="startup-modal-title">Comenzar</div>
+                    
+                    <div class="welcome-buttons" id="welcomeButtons">
+                        <button class="btn-primary" onclick="showLoadAccount()">Cargar cuenta</button>
+                        <button class="btn-primary" onclick="showCreateAccount()">Crear cuenta</button>
+                    </div>
+
+                    <div id="loadAccountForm" class="hidden">
+                        <div class="input-group">
+                            <label style="margin-bottom: var(--spacing-4); display: block;">Selecciona tu archivo de cuenta</label>
+                            <div class="file-upload-area" id="fileUploadArea">
+                                <input type="file" id="loadFile" accept=".json" class="file-input-hidden">
+                                <div class="upload-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                </div>
+                                <div class="upload-text">Arrastra tu archivo JSON aquí</div>
+                                <div class="upload-subtext">o haz clic para seleccionar</div>
+                            </div>
+                            <div class="file-selected" id="fileSelected">
+                                ✓ Archivo seleccionado
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="showWelcome()">Volver</button>
+                            <button class="btn-primary" onclick="loadAccount()">Cargar</button>
+                        </div>
+                    </div>
+
+                    <div id="createAccountForm" class="hidden">
+                        <div class="input-group">
+                            <label>Nombre completo</label>
+                            <input type="text" id="createName" class="input" placeholder="Ingresa tu nombre">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Foto de perfil</label>
+                            <input type="file" id="createPhotoFile" accept="image/*" class="file-input-hidden">
+                            <button type="button" class="photo-upload-button" id="photoUploadBtn" onclick="document.getElementById('createPhotoFile').click()">
+                                <span id="photoUploadText">Seleccionar foto de perfil</span>
+                            </button>
+                            
+                            <div id="cropperContainer" class="hidden">
+                                <div class="image-cropper-container">
+                                    <img id="cropperImage" class="cropper-image" src="" alt="Crop">
+                                    <div id="cropCircle" class="crop-circle"></div>
+                                </div>
+                                <div class="crop-controls">
+                                    <label>Tamaño del recorte:</label>
+                                    <input type="range" id="cropSize" min="100" max="300" value="200">
+                                </div>
+                            </div>
+                            <img id="photoPreview" class="profile-pic-preview hidden" src="">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Herramientas disponibles</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="toolAccounts" checked>
+                                    <label for="toolAccounts">Gestión de Cuentas</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="toolClipboard" checked>
+                                    <label for="toolClipboard">Portapapeles</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="toolNotes" checked>
+                                    <label for="toolNotes">Notas</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="showWelcome()">Volver</button>
+                            <button class="btn-primary" onclick="createAccount()">Crear cuenta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
