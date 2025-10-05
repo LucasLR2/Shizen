@@ -8,7 +8,7 @@ let appData = {
 };
 
 let timerState = {
-    mode: 'custom', // 'pomodoro', 'short', 'long', 'custom'
+    mode: 'custom',
     totalSeconds: 0,
     remainingSeconds: 0,
     isRunning: false,
@@ -16,7 +16,8 @@ let timerState = {
     intervalId: null,
     soundEnabled: true,
     selectedSound: 'bell',
-    sessionsToday: 0
+    sessionsToday: 0,
+    startTime: null
 };
 
 // Historial temporal de portapapeles (no se exporta)
@@ -831,6 +832,7 @@ function startTimer() {
 
     timerState.isRunning = true;
     timerState.isPaused = false;
+    timerState.startTime = Date.now();
 
     const startBtn = document.getElementById('timerStartBtn');
     const pauseBtn = document.getElementById('timerPauseBtn');
@@ -839,13 +841,16 @@ function startTimer() {
     if (pauseBtn) pauseBtn.style.display = 'inline-flex';
 
     timerState.intervalId = setInterval(() => {
-        timerState.remainingSeconds--;
+        // Calcular tiempo real transcurrido
+        const elapsed = Math.floor((Date.now() - timerState.startTime) / 1000);
+        timerState.remainingSeconds = Math.max(0, timerState.totalSeconds - elapsed);
+        
         updateTimerDisplay();
 
         if (timerState.remainingSeconds <= 0) {
             finishTimer();
         }
-    }, 1000);
+    }, 100); 
 }
 
 function pauseTimer() {
@@ -854,6 +859,9 @@ function pauseTimer() {
     clearInterval(timerState.intervalId);
     timerState.isRunning = false;
     timerState.isPaused = true;
+    
+    // Guardar el tiempo restante actual
+    timerState.totalSeconds = timerState.remainingSeconds;
 
     const startBtn = document.getElementById('timerStartBtn');
     const pauseBtn = document.getElementById('timerPauseBtn');
