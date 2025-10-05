@@ -150,6 +150,47 @@
                     <!-- Notes will be rendered here -->
                 </div>
             </section>
+
+            <!-- Clipboard Section -->
+            <section id="section-clipboard" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Portapapeles</h1>
+                        <p class="section-description">Historial de copiado y elementos guardados</p>
+                    </div>
+                    <button class="btn-primary" onclick="clearTemporaryClipboard()" id="btnClearTemp">
+                        <i data-lucide="trash-2"></i>
+                        Limpiar temporales
+                    </button>
+                </div>
+
+                <!-- Pestañas de navegación -->
+                <div class="clipboard-tabs">
+                    <button class="clipboard-tab active" data-tab="temporary" onclick="switchClipboardTab('temporary')">
+                        <i data-lucide="clock"></i>
+                        <span>Temporales</span>
+                        <span class="tab-count" id="tempCount">0</span>
+                    </button>
+                    <button class="clipboard-tab" data-tab="saved" onclick="switchClipboardTab('saved')">
+                        <i data-lucide="bookmark"></i>
+                        <span>Guardados</span>
+                        <span class="tab-count" id="savedCount">0</span>
+                    </button>
+                </div>
+
+                <!-- Contenido de las pestañas -->
+                <div class="clipboard-tab-content active" id="tab-temporary">
+                    <div id="clipboardTemporaryList" class="accounts-grid">
+                        <!-- Temporary clipboard items will be rendered here -->
+                    </div>
+                </div>
+
+                <div class="clipboard-tab-content" id="tab-saved">
+                    <div id="clipboardSavedList" class="accounts-grid">
+                        <!-- Saved clipboard items will be rendered here -->
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 

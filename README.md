@@ -11,7 +11,7 @@ Shizen (自然) means "nature" or "natural" in Japanese. This application embodi
 ## ✨ Features
 
 - **🔐 Account Management**: Securely store and organize your credentials with category-based autocomplete
-- **📋 Clipboard Manager**: Quick access to frequently used text snippets (coming soon)
+- **📋 Clipboard Manager**: Automatic clipboard history with temporary and permanent storage
 - **📝 Notes**: Create and manage personal notes with a clean interface
 - **🎨 Dark Theme**: Elegant dark mode design for comfortable extended use
 - **💾 Local Storage**: All data stored locally in JSON format—no cloud, no tracking
@@ -66,6 +66,17 @@ That's it! Shizen runs entirely in your browser with no server required.
 - Copy usernames and passwords with one click
 - Add optional notes for additional context (2FA codes, security questions, etc.)
 - Edit or delete accounts as needed
+
+### Managing Clipboard
+
+- **Automatic Detection**: Everything you copy is automatically captured and stored
+- **Temporary History**: Up to 50 recent items stored during your session
+- **Permanent Saved**: Save important items to keep them across sessions
+- **Smart Type Detection**: Automatically identifies URLs, emails, code, numbers, and text
+- **Tab Navigation**: Switch between temporary and saved items with ease
+- Copy any item back to your clipboard with one click
+- Temporary items are cleared when you log out
+- Only saved items are included in JSON exports
 
 ### Managing Notes
 
@@ -158,7 +169,7 @@ shizen/
 
 ## 🎯 Roadmap
 
-- [ ] Clipboard Manager implementation
+- [x] Clipboard Manager implementation
 - [ ] Search functionality across accounts and notes
 - [ ] Dark/Light theme toggle
 - [ ] Custom categories with icons
