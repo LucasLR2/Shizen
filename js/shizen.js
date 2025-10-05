@@ -1424,7 +1424,7 @@ function showTimerCompleteNotification() {
     if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('Shizen - Temporizador', {
             body: 'Tiempo completado',
-            icon: 'resources/logo-shizen-sf.png',
+            icon: 'resources/flor-shizen-256.png',
             tag: 'timer-complete',
             requireInteraction: true
         });
