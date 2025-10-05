@@ -221,9 +221,6 @@ function loadAccount() {
 
 function createAccount() {
     const name = document.getElementById('createName').value.trim();
-    const toolAccounts = document.getElementById('toolAccounts').checked;
-    const toolClipboard = document.getElementById('toolClipboard').checked;
-    const toolNotes = document.getElementById('toolNotes').checked;
 
     if (!name) {
         showNotification('Por favor ingresa tu nombre', 'error');
@@ -241,9 +238,9 @@ function createAccount() {
         name: name,
         photo: croppedPhoto,
         tools: {
-            accounts: toolAccounts,
-            clipboard: toolClipboard,
-            notes: toolNotes
+            accounts: true,
+            clipboard: true,
+            notes: true
         }
     };
 
