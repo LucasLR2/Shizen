@@ -992,143 +992,190 @@ function playTimerSoundOnce() {
 }
 
 function playTimerSound() {
-    // Reproducir el sonido 3 veces con intervalos de 500ms
-    for (let i = 0; i < 3; i++) {
-        setTimeout(() => {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-            switch (timerState.selectedSound) {
-                case 'bell':
-                    playBellSound(audioContext);
-                    break;
-                case 'beep':
-                    playBeepSound(audioContext);
-                    break;
-                case 'chime':
-                    playChimeSound(audioContext);
-                    break;
-                case 'ding':
-                    playDingSound(audioContext);
-                    break;
-                case 'digital':
-                    playDigitalSound(audioContext);
-                    break;
-                case 'soft':
-                    playSoftSound(audioContext);
-                    break;
-                default:
-                    playBellSound(audioContext);
-            }
-        }, i * 500);
+    switch (timerState.selectedSound) {
+        case 'bell':
+            playBellSound(audioContext);
+            break;
+        case 'beep':
+            playBeepSound(audioContext);
+            break;
+        case 'chime':
+            playChimeSound(audioContext);
+            break;
+        case 'ding':
+            playDingSound(audioContext);
+            break;
+        case 'digital':
+            playDigitalSound(audioContext);
+            break;
+        case 'soft':
+            playSoftSound(audioContext);
+            break;
+        default:
+            playBellSound(audioContext);
     }
 }
 
 function playBellSound(audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.frequency.value = 800;
-    oscillator.type = 'sine';
-
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 1);
+    // Campana resonante de 5 segundos con armónicos
+    const frequencies = [523.25, 659.25, 783.99, 1046.50];
+    
+    frequencies.forEach((freq, i) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = freq;
+        oscillator.type = 'sine';
+        
+        const startTime = audioContext.currentTime + (i * 0.3);
+        gainNode.gain.setValueAtTime(0.25, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 5);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 5);
+    });
 }
 
 function playBeepSound(audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.frequency.value = 1000;
-    oscillator.type = 'square';
-
-    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.15);
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.15);
+    // Secuencia de beeps ascendentes de 5 segundos
+    const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+    
+    notes.forEach((freq, i) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = freq;
+        oscillator.type = 'square';
+        
+        const startTime = audioContext.currentTime + (i * 0.6);
+        gainNode.gain.setValueAtTime(0.2, startTime);
+        gainNode.gain.setValueAtTime(0.2, startTime + 0.3);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.5);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 0.5);
+    });
 }
 
 function playChimeSound(audioContext) {
-    [523.25, 659.25, 783.99].forEach((freq, i) => {
+    // Melodía de campanas tubulares de 5 segundos
+    const melody = [
+        {freq: 523.25, time: 0},
+        {freq: 659.25, time: 0.8},
+        {freq: 783.99, time: 1.6},
+        {freq: 1046.50, time: 2.4},
+        {freq: 783.99, time: 3.2},
+        {freq: 659.25, time: 4.0}
+    ];
+    
+    melody.forEach(note => {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
-
+        
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.value = freq;
+        
+        oscillator.frequency.value = note.freq;
         oscillator.type = 'sine';
-
-        const startTime = audioContext.currentTime + (i * 0.1);
-        gainNode.gain.setValueAtTime(0.15, startTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.8);
-
+        
+        const startTime = audioContext.currentTime + note.time;
+        gainNode.gain.setValueAtTime(0.2, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 1.5);
+        
         oscillator.start(startTime);
-        oscillator.stop(startTime + 0.8);
+        oscillator.stop(startTime + 1.5);
     });
 }
 
 function playDingSound(audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.frequency.value = 1200;
-    oscillator.type = 'sine';
-
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
+    // Ding con eco y reverberación de 5 segundos
+    for (let i = 0; i < 5; i++) {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 1200 - (i * 50);
+        oscillator.type = 'sine';
+        
+        const startTime = audioContext.currentTime + (i * 1);
+        const volume = 0.3 * Math.pow(0.6, i);
+        
+        gainNode.gain.setValueAtTime(volume, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 1.2);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 1.2);
+    }
 }
 
 function playDigitalSound(audioContext) {
-    [880, 880, 880].forEach((freq, i) => {
+    // Sonido digital espacial de 5 segundos
+    const pattern = [
+        {freq: 880, time: 0, duration: 0.15},
+        {freq: 1100, time: 0.2, duration: 0.15},
+        {freq: 1320, time: 0.4, duration: 0.15},
+        {freq: 880, time: 1.0, duration: 0.15},
+        {freq: 1100, time: 1.2, duration: 0.15},
+        {freq: 1320, time: 1.4, duration: 0.15},
+        {freq: 1760, time: 2.0, duration: 0.3},
+        {freq: 1320, time: 2.5, duration: 0.3},
+        {freq: 1100, time: 3.0, duration: 0.3},
+        {freq: 880, time: 3.5, duration: 0.8}
+    ];
+    
+    pattern.forEach(note => {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
-
+        
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.value = freq;
+        
+        oscillator.frequency.value = note.freq;
         oscillator.type = 'square';
-
-        const startTime = audioContext.currentTime + (i * 0.15);
+        
+        const startTime = audioContext.currentTime + note.time;
         gainNode.gain.setValueAtTime(0.15, startTime);
-        gainNode.gain.setValueAtTime(0, startTime + 0.1);
-
+        gainNode.gain.setValueAtTime(0.15, startTime + note.duration * 0.7);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
+        
         oscillator.start(startTime);
-        oscillator.stop(startTime + 0.1);
+        oscillator.stop(startTime + note.duration);
     });
 }
 
 function playSoftSound(audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.frequency.value = 440;
-    oscillator.type = 'sine';
-
-    gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 1.5);
+    // Sonido suave y relajante de 5 segundos con ondas superpuestas
+    const frequencies = [220, 277, 330, 440];
+    
+    frequencies.forEach((freq, i) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = freq;
+        oscillator.type = 'sine';
+        
+        const startTime = audioContext.currentTime + (i * 0.5);
+        const volume = 0.15 - (i * 0.02);
+        
+        gainNode.gain.setValueAtTime(volume, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 5);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 5);
+    });
 }
 
 function openSoundModal() {
@@ -1424,7 +1471,7 @@ function showTimerCompleteNotification() {
     if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('Shizen', {
             body: 'Tiempo completado',
-            icon: 'resources/logo-shizen-sf.png',
+            icon: 'resources/flor-shizen-256-sf.png',
             tag: 'timer-complete',
             requireInteraction: true
         });
