@@ -3,7 +3,20 @@ let appData = {
     accounts: [],
     clipboard: [], // Guardados permanentes
     notes: [],
-    appearance: { theme: 'dark', accentColor: '#FF5252' }
+    appearance: { theme: 'dark', accentColor: '#FF5252' },
+    timerSettings: { selectedSound: 'bell', soundEnabled: true }
+};
+
+let timerState = {
+    mode: 'custom', // 'pomodoro', 'short', 'long', 'custom'
+    totalSeconds: 0,
+    remainingSeconds: 0,
+    isRunning: false,
+    isPaused: false,
+    intervalId: null,
+    soundEnabled: true,
+    selectedSound: 'bell',
+    sessionsToday: 0
 };
 
 // Historial temporal de portapapeles (no se exporta)
@@ -34,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initializeDashboard() {
+    // Inicializar timerSettings si no existe (para compatibilidad con datos antiguos)
+    if (!appData.timerSettings) {
+        appData.timerSettings = { selectedSound: 'bell', soundEnabled: true };
+    }
+
     // Configurar perfil en header
     const profileName = document.getElementById('headerProfileName');
     const profilePic = document.getElementById('headerProfilePic');
@@ -70,14 +88,50 @@ function initializeDashboard() {
     // Configurar event listeners
     setupEventListeners();
 
-     // Inicializar detector de portapapeles
+    // Solicitar permisos de notificación
+    if ('Notification' in window) {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(permission => {
+                console.log('Permiso de notificaciones:', permission);
+            });
+        } else {
+            console.log('Estado de notificaciones:', Notification.permission);
+        }
+    }
+
+    // Inicializar detector de portapapeles
     initClipboardDetector();
     renderClipboard();
+
+    // Inicializar temporizador
+    initializeTimer();
+    setTimerMode('custom');
 
     // Actualizar estadísticas y renderizar contenido
     updateStats();
     renderAccounts();
     renderNotes();
+}
+
+function initializeTimer() {
+    const navTimer = document.getElementById('navTimerSidebar');
+    if (navTimer) {
+        navTimer.style.display = appData.profile.tools.timer !== false ? 'flex' : 'none';
+    }
+    
+    // Cargar configuración guardada
+    if (appData.timerSettings) {
+        timerState.selectedSound = appData.timerSettings.selectedSound || 'bell';
+        timerState.soundEnabled = appData.timerSettings.soundEnabled !== false;
+    }
+    
+    // Actualizar el ícono del botón de sonido
+    const btn = document.getElementById('timerSoundBtn');
+    if (btn) {
+        btn.innerHTML = `<i data-lucide="${timerState.soundEnabled ? 'volume-2' : 'volume-x'}"></i>`;
+    }
+    
+    updateTimerDisplay();
 }
 
 function setupEventListeners() {
@@ -108,12 +162,16 @@ function setupEventListeners() {
     window.addEventListener('click', function (e) {
         const accountModal = document.getElementById('accountModal');
         const noteModal = document.getElementById('noteModal');
+        const soundModal = document.getElementById('soundModal');
 
         if (e.target === accountModal) {
             closeAccountModal();
         }
         if (e.target === noteModal) {
             closeNoteModal();
+        }
+        if (e.target === soundModal) {
+            closeSoundModal();
         }
     });
 }
@@ -422,7 +480,8 @@ function deleteNote(index) {
 
 function initClipboardDetector() {
     let lastClipboardContent = '';
-    
+    let permissionAsked = false;
+
     // Verificar el portapapeles cada 1 segundo
     setInterval(async () => {
         try {
@@ -432,8 +491,11 @@ function initClipboardDetector() {
                 addToTemporaryClipboard(text.trim());
             }
         } catch (err) {
-            // El usuario aún no ha dado permisos o el clipboard está vacío
-            console.log('Esperando permisos de portapapeles...');
+            // Silencioso - no mostrar errores repetitivos
+            if (!permissionAsked) {
+                permissionAsked = true;
+                console.log('💡 Tip: Permite el acceso al portapapeles para usar esta función');
+            }
         }
     }, 1000);
 }
@@ -517,7 +579,7 @@ function renderClipboard() {
 function updateClipboardCounts() {
     const tempCount = document.getElementById('tempCount');
     const savedCount = document.getElementById('savedCount');
-    
+
     if (tempCount) tempCount.textContent = temporaryClipboard.length;
     if (savedCount) savedCount.textContent = appData.clipboard.length;
 }
@@ -624,10 +686,10 @@ function copyClipboardItem(text) {
 
 function saveClipboardItem(index, isFromSaved = false) {
     const item = isFromSaved ? appData.clipboard[index] : temporaryClipboard[index];
-    
+
     // Verificar si ya existe en guardados
     const exists = appData.clipboard.some(saved => saved.content === item.content);
-    
+
     if (exists) {
         showNotification('Este elemento ya está guardado', 'error');
         return;
@@ -722,6 +784,395 @@ function switchClipboardTab(tabName) {
     }
 }
 
+// ========== TIMER ==========
+
+function setTimerMode(mode) {
+    stopTimer();
+    timerState.mode = mode;
+
+    switch (mode) {
+        case 'pomodoro':
+            timerState.totalSeconds = 25 * 60;
+            break;
+        case 'short':
+            timerState.totalSeconds = 5 * 60;
+            break;
+        case 'long':
+            timerState.totalSeconds = 15 * 60;
+            break;
+        case 'custom':
+            const minutes = parseInt(document.getElementById('customMinutes').value) || 0;
+            const seconds = parseInt(document.getElementById('customSeconds').value) || 0;
+            timerState.totalSeconds = (minutes * 60) + seconds;
+            break;
+    }
+
+    timerState.remainingSeconds = timerState.totalSeconds;
+    updateTimerDisplay();
+    updateModeButtons();
+}
+
+function updateModeButtons() {
+    document.querySelectorAll('.timer-mode-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.mode === timerState.mode) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+function startTimer() {
+    if (timerState.remainingSeconds === 0) {
+        showNotification('Configura un tiempo primero', 'error');
+        return;
+    }
+
+    if (timerState.isRunning) return;
+
+    timerState.isRunning = true;
+    timerState.isPaused = false;
+
+    const startBtn = document.getElementById('timerStartBtn');
+    const pauseBtn = document.getElementById('timerPauseBtn');
+
+    if (startBtn) startBtn.style.display = 'none';
+    if (pauseBtn) pauseBtn.style.display = 'inline-flex';
+
+    timerState.intervalId = setInterval(() => {
+        timerState.remainingSeconds--;
+        updateTimerDisplay();
+
+        if (timerState.remainingSeconds <= 0) {
+            finishTimer();
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    if (!timerState.isRunning) return;
+
+    clearInterval(timerState.intervalId);
+    timerState.isRunning = false;
+    timerState.isPaused = true;
+
+    const startBtn = document.getElementById('timerStartBtn');
+    const pauseBtn = document.getElementById('timerPauseBtn');
+
+    if (startBtn) startBtn.style.display = 'inline-flex';
+    if (pauseBtn) pauseBtn.style.display = 'none';
+}
+
+function stopTimer() {
+    clearInterval(timerState.intervalId);
+    timerState.isRunning = false;
+    timerState.isPaused = false;
+    timerState.remainingSeconds = timerState.totalSeconds;
+
+    const startBtn = document.getElementById('timerStartBtn');
+    const pauseBtn = document.getElementById('timerPauseBtn');
+
+    if (startBtn) startBtn.style.display = 'inline-flex';
+    if (pauseBtn) pauseBtn.style.display = 'none';
+
+    updateTimerDisplay();
+}
+
+function finishTimer() {
+    clearInterval(timerState.intervalId);
+    timerState.isRunning = false;
+    timerState.remainingSeconds = 0;
+    timerState.sessionsToday++;
+
+    updateTimerDisplay();
+
+    // Sonido
+    if (timerState.soundEnabled) {
+        playTimerSound();
+    }
+
+    // Animación visual
+    const timerCircle = document.querySelector('.timer-circle');
+    if (timerCircle) {
+        timerCircle.classList.add('timer-complete');
+        setTimeout(() => timerCircle.classList.remove('timer-complete'), 3000);
+    }
+
+    // Notificación visual grande y llamativa
+    showTimerCompleteNotification();
+
+    // Resetear
+    setTimeout(() => {
+        timerState.remainingSeconds = timerState.totalSeconds;
+        updateTimerDisplay();
+        const startBtn = document.getElementById('timerStartBtn');
+        const pauseBtn = document.getElementById('timerPauseBtn');
+        if (startBtn) startBtn.style.display = 'inline-flex';
+        if (pauseBtn) pauseBtn.style.display = 'none';
+    }, 2000);
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timerState.remainingSeconds / 60);
+    const seconds = timerState.remainingSeconds % 60;
+
+    const display = document.getElementById('timerDisplay');
+    if (display) {
+        display.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    // Actualizar círculo de progreso
+    updateTimerCircle();
+
+    // Actualizar estadística
+    const sessionsEl = document.getElementById('timerSessionsToday');
+    if (sessionsEl) {
+        sessionsEl.textContent = timerState.sessionsToday;
+    }
+}
+
+function updateTimerCircle() {
+    const circle = document.getElementById('timerProgressCircle');
+    if (!circle) return;
+
+    const percentage = timerState.totalSeconds > 0
+        ? (timerState.remainingSeconds / timerState.totalSeconds) * 100
+        : 0;
+
+    const circumference = 2 * Math.PI * 140; // radio = 140
+    const offset = circumference - (percentage / 100) * circumference;
+
+    circle.style.strokeDashoffset = offset;
+}
+
+function toggleTimerSound() {
+    timerState.soundEnabled = !timerState.soundEnabled;
+    
+    // Guardar en appData
+    appData.timerSettings.soundEnabled = timerState.soundEnabled;
+    saveToSession();
+
+    // Actualizar el ícono del botón
+    const btn = document.getElementById('timerSoundBtn');
+    if (btn) {
+        btn.innerHTML = `<i data-lucide="${timerState.soundEnabled ? 'volume-2' : 'volume-x'}"></i>`;
+        
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    showNotification(timerState.soundEnabled ? 'Sonido activado' : 'Sonido desactivado', 'success');
+}
+
+function playTimerSoundOnce() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    switch (timerState.selectedSound) {
+        case 'bell':
+            playBellSound(audioContext);
+            break;
+        case 'beep':
+            playBeepSound(audioContext);
+            break;
+        case 'chime':
+            playChimeSound(audioContext);
+            break;
+        case 'ding':
+            playDingSound(audioContext);
+            break;
+        case 'digital':
+            playDigitalSound(audioContext);
+            break;
+        case 'soft':
+            playSoftSound(audioContext);
+            break;
+        default:
+            playBellSound(audioContext);
+    }
+}
+
+function playTimerSound() {
+    // Reproducir el sonido 3 veces con intervalos de 500ms
+    for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            switch (timerState.selectedSound) {
+                case 'bell':
+                    playBellSound(audioContext);
+                    break;
+                case 'beep':
+                    playBeepSound(audioContext);
+                    break;
+                case 'chime':
+                    playChimeSound(audioContext);
+                    break;
+                case 'ding':
+                    playDingSound(audioContext);
+                    break;
+                case 'digital':
+                    playDigitalSound(audioContext);
+                    break;
+                case 'soft':
+                    playSoftSound(audioContext);
+                    break;
+                default:
+                    playBellSound(audioContext);
+            }
+        }, i * 500);
+    }
+}
+
+function playBellSound(audioContext) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.value = 800;
+    oscillator.type = 'sine';
+
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 1);
+}
+
+function playBeepSound(audioContext) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.value = 1000;
+    oscillator.type = 'square';
+
+    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.15);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.15);
+}
+
+function playChimeSound(audioContext) {
+    [523.25, 659.25, 783.99].forEach((freq, i) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = freq;
+        oscillator.type = 'sine';
+
+        const startTime = audioContext.currentTime + (i * 0.1);
+        gainNode.gain.setValueAtTime(0.15, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.8);
+
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 0.8);
+    });
+}
+
+function playDingSound(audioContext) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.value = 1200;
+    oscillator.type = 'sine';
+
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+function playDigitalSound(audioContext) {
+    [880, 880, 880].forEach((freq, i) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = freq;
+        oscillator.type = 'square';
+
+        const startTime = audioContext.currentTime + (i * 0.15);
+        gainNode.gain.setValueAtTime(0.15, startTime);
+        gainNode.gain.setValueAtTime(0, startTime + 0.1);
+
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 0.1);
+    });
+}
+
+function playSoftSound(audioContext) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.value = 440;
+    oscillator.type = 'sine';
+
+    gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 1.5);
+}
+
+function openSoundModal() {
+    const modal = document.getElementById('soundModal');
+    modal.classList.add('active');
+
+    // Marcar el sonido actual como activo
+    document.querySelectorAll('.sound-option').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.sound === timerState.selectedSound) {
+            btn.classList.add('active');
+        }
+    });
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+function closeSoundModal() {
+    document.getElementById('soundModal').classList.remove('active');
+}
+
+function selectSound(soundName) {
+    timerState.selectedSound = soundName;
+
+    // Actualizar botones activos
+    document.querySelectorAll('.sound-option').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.sound === soundName) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Guardar en appData
+    appData.timerSettings.selectedSound = soundName;
+    saveToSession();
+
+    // Reproducir preview (solo una vez)
+    playTimerSoundOnce();
+
+    showNotification(`Sonido cambiado a: ${soundName}`, 'success');
+}
+
 // ========== UTILITIES ==========
 
 function copyToClipboard(text) {
@@ -779,7 +1230,7 @@ function exportData() {
         notes: appData.notes,
         appearance: appData.appearance
     };
-    
+
     const dataStr = JSON.stringify(dataToExport, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
@@ -912,6 +1363,90 @@ function updateSelectedSuggestion(items, index) {
             item.classList.remove('selected');
         }
     });
+}
+
+function showTimerCompleteNotification() {
+    // Crear notificación estilo Discord (simple y minimalista)
+    const existingNotif = document.getElementById('timerCompleteNotification');
+    if (existingNotif) existingNotif.remove();
+
+    const notif = document.createElement('div');
+    notif.id = 'timerCompleteNotification';
+    notif.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #2f3136;
+        color: #dcddde;
+        padding: 16px 20px;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        z-index: 9999;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 280px;
+        animation: slideInRight 0.3s ease-out;
+    `;
+    
+    notif.innerHTML = `
+        <div style="
+            width: 4px;
+            height: 48px;
+            background: #5865f2;
+            border-radius: 4px;
+            flex-shrink: 0;
+        "></div>
+        <div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Temporizador</div>
+            <div style="color: #b9bbbe; font-size: 13px;">Tiempo completado</div>
+        </div>
+    `;
+    
+    document.body.appendChild(notif);
+
+    // Agregar animación CSS
+    if (!document.getElementById('timerNotifStyle')) {
+        const style = document.createElement('style');
+        style.id = 'timerNotifStyle';
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Intentar notificación del sistema (funcionará en producción)
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Shizen - Temporizador', {
+            body: 'Tiempo completado',
+            icon: 'resources/logo-shizen-sf.png',
+            tag: 'timer-complete',
+            requireInteraction: true
+        });
+    }
+    
+    // Hacer parpadear el título
+    let flashCount = 0;
+    const originalTitle = document.title;
+    const flashInterval = setInterval(() => {
+        document.title = flashCount % 2 === 0 ? '⏰ Tiempo!' : originalTitle;
+        flashCount++;
+        if (flashCount > 10) {
+            clearInterval(flashInterval);
+            document.title = originalTitle;
+        }
+    }, 500);
+
+    // Quitar después de 5 segundos
+    setTimeout(() => {
+        notif.style.animation = 'slideInRight 0.3s ease-out reverse';
+        setTimeout(() => notif.remove(), 300);
+    }, 5000);
 }
 
 function showNotification(message, type = 'success') {

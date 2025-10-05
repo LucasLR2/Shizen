@@ -13,6 +13,7 @@ Shizen (自然) means "nature" or "natural" in Japanese. This application embodi
 - **🔐 Account Management**: Securely store and organize your credentials with category-based autocomplete
 - **📋 Clipboard Manager**: Automatic clipboard history with temporary and permanent storage
 - **📝 Notes**: Create and manage personal notes with a clean interface
+- **⏰ Timer**: Pomodoro and custom timers with configurable sound notifications
 - **🎨 Dark Theme**: Elegant dark mode design for comfortable extended use
 - **💾 Local Storage**: All data stored locally in JSON format—no cloud, no tracking
 - **🔒 Privacy First**: Complete offline functionality, your data never leaves your device
@@ -83,6 +84,17 @@ That's it! Shizen runs entirely in your browser with no server required.
 - Create quick text notes for reminders, ideas, and information
 - Edit or delete notes at any time
 - Notes automatically display relative timestamps (Today, Yesterday, etc.)
+
+### Using the Timer
+
+- **Quick Modes**: Pomodoro (25min), Short Break (5min), Long Break (15min)
+- **Custom Timer**: Set your own minutes and seconds
+- **Sound Notifications**: Choose from 6 different notification sounds (Bell, Beep, Chime, Ding, Digital, Soft)
+- **System Alerts**: Receive browser notifications even when on other tabs (requires permission)
+- **Visual Feedback**: Discord-style notification and page title flash when timer completes
+- **Session Tracking**: Tracks completed sessions per day
+- **Sound plays 3 times** when timer finishes to ensure you don't miss it
+- All timer settings (sound type and mute state) are saved in your JSON exports
 
 ### Data Management
 
@@ -170,7 +182,7 @@ shizen/
 ## 🎯 Roadmap
 
 - [x] Clipboard Manager implementation
-- [ ] Pomodoro timer with eye-catching clock and particle effects
+- [x] Timer with sound notifications and system alerts
 - [ ] Search and filter functionality for accounts
 - [ ] Configuration page with basic settings
 - [ ] Profile page with basic options

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,14 @@
     <link rel="stylesheet" href="css/shizen-styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header" id="mainHeader">
         <div class="logo" onclick="showSection('dashboard')">
             <img src="resources/logo-shizen-sf.png" alt="Shizen" class="logo-icon">
         </div>
-        
+
         <nav class="header-nav">
             <div class="header-nav-item active" data-section="dashboard">
                 <span>Dashboard</span>
@@ -62,6 +64,10 @@
                 <div class="nav-item" data-section="notes" id="navNotesSidebar">
                     <i data-lucide="sticky-note" class="nav-icon"></i>
                     <span class="nav-text">Notas</span>
+                </div>
+                <div class="nav-item" data-section="timer" id="navTimerSidebar">
+                    <i data-lucide="timer" class="nav-icon"></i>
+                    <span class="nav-text">Temporizador</span>
                 </div>
             </nav>
         </aside>
@@ -191,6 +197,152 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Timer Section -->
+            <section id="section-timer" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Temporizador</h1>
+                        <p class="section-description">Gestiona tu tiempo de forma eficiente</p>
+                    </div>
+                    <div style="display: flex; gap: var(--spacing-3);">
+                        <button class="btn-primary" onclick="toggleTimerSound()" id="timerSoundBtn">
+                            <i data-lucide="volume-2"></i>
+                        </button>
+                        <button class="btn-primary" onclick="openSoundModal()">
+                            <i data-lucide="settings"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card timer-container">
+                    <div class="timer-layout">
+                        <!-- Columna izquierda: Configuración -->
+                        <div class="timer-left-column">
+                            <!-- Modos rápidos -->
+                            <div class="timer-control-group">
+                                <h3 class="timer-section-title">Modos rápidos</h3>
+                                <div class="timer-modes">
+                                    <button class="timer-mode-btn" data-mode="pomodoro"
+                                        onclick="setTimerMode('pomodoro')">
+                                        <i data-lucide="coffee"></i>
+                                        <span>Pomodoro (25 min)</span>
+                                    </button>
+                                    <button class="timer-mode-btn" data-mode="short" onclick="setTimerMode('short')">
+                                        <i data-lucide="zap"></i>
+                                        <span>Descanso corto (5 min)</span>
+                                    </button>
+                                    <button class="timer-mode-btn" data-mode="long" onclick="setTimerMode('long')">
+                                        <i data-lucide="moon"></i>
+                                        <span>Descanso largo (15 min)</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Timer personalizado -->
+                            <div class="timer-control-group">
+                                <h3 class="timer-section-title">Personalizado</h3>
+                                <div class="timer-custom">
+                                    <input type="number" id="customMinutes" class="input" placeholder="00" min="0"
+                                        max="99">
+                                    <span class="timer-custom-separator">:</span>
+                                    <input type="number" id="customSeconds" class="input" placeholder="00" min="0"
+                                        max="59">
+                                    <button class="timer-mode-btn timer-custom-btn" data-mode="custom"
+                                        onclick="setTimerMode('custom')">
+                                        <i data-lucide="check"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Sesiones -->
+                            <div class="timer-control-group">
+                                <h3 class="timer-section-title">Sesiones</h3>
+                                <div class="timer-stat-item">
+                                    <span id="timerSessionsToday" class="timer-stat-value">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Columna derecha: Círculo + Botones -->
+                        <div class="timer-right-column">
+                            <!-- Círculo -->
+                            <div class="timer-circle-wrapper">
+                                <svg class="timer-circle" viewBox="0 0 300 300">
+                                    <defs>
+                                        <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#FF5252;stop-opacity:1" />
+                                            <stop offset="100%" style="stop-color:#81C784;stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                    <circle class="timer-circle-bg" cx="150" cy="150" r="140"></circle>
+                                    <circle id="timerProgressCircle" class="timer-circle-progress" cx="150" cy="150"
+                                        r="140"></circle>
+                                </svg>
+                                <div class="timer-display-wrapper">
+                                    <div id="timerDisplay" class="timer-display">00:00</div>
+                                    <div class="timer-mode-label">Listo para empezar</div>
+                                </div>
+                            </div>
+
+                            <!-- Botones de control -->
+                            <div class="timer-controls">
+                                <button id="timerStartBtn" class="timer-control-btn timer-start" onclick="startTimer()"
+                                    title="Iniciar">
+                                    <i data-lucide="play"></i>
+                                </button>
+                                <button id="timerPauseBtn" class="timer-control-btn timer-pause" onclick="pauseTimer()"
+                                    style="display: none;" title="Pausar">
+                                    <i data-lucide="pause"></i>
+                                </button>
+                                <button class="timer-control-btn timer-stop" onclick="stopTimer()" title="Reiniciar">
+                                    <i data-lucide="rotate-ccw"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sound Settings Modal -->
+                <div id="soundModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Sonidos del Temporizador</h2>
+                            <button class="modal-close" onclick="closeSoundModal()">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="sound-options">
+                                <button class="sound-option" data-sound="bell" onclick="selectSound('bell')">
+                                    <i data-lucide="bell"></i>
+                                    <span>Campana</span>
+                                </button>
+                                <button class="sound-option" data-sound="beep" onclick="selectSound('beep')">
+                                    <i data-lucide="radio"></i>
+                                    <span>Beep</span>
+                                </button>
+                                <button class="sound-option" data-sound="chime" onclick="selectSound('chime')">
+                                    <i data-lucide="music"></i>
+                                    <span>Chime</span>
+                                </button>
+                                <button class="sound-option" data-sound="ding" onclick="selectSound('ding')">
+                                    <i data-lucide="bell-ring"></i>
+                                    <span>Ding</span>
+                                </button>
+                                <button class="sound-option" data-sound="digital" onclick="selectSound('digital')">
+                                    <i data-lucide="smartphone"></i>
+                                    <span>Digital</span>
+                                </button>
+                                <button class="sound-option" data-sound="soft" onclick="selectSound('soft')">
+                                    <i data-lucide="volume-1"></i>
+                                    <span>Suave</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -210,7 +362,8 @@
                 <div class="input-group">
                     <label>Categoría</label>
                     <div class="autocomplete-wrapper">
-                        <input type="text" id="accountPlatform" class="input" placeholder="Ej: Gmail, Instagram" autocomplete="off">
+                        <input type="text" id="accountPlatform" class="input" placeholder="Ej: Gmail, Instagram"
+                            autocomplete="off">
                         <div id="categorySuggestions" class="suggestions-dropdown"></div>
                     </div>
                 </div>
@@ -229,7 +382,8 @@
                 </div>
                 <div class="input-group">
                     <label>Notas (opcional)</label>
-                    <textarea id="accountNotes" class="input" rows="3" placeholder="Información adicional..."></textarea>
+                    <textarea id="accountNotes" class="input" rows="3"
+                        placeholder="Información adicional..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -267,4 +421,5 @@
 
     <script src="js/shizen.js"></script>
 </body>
+
 </html>
