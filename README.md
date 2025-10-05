@@ -171,14 +171,11 @@ shizen/
 
 - [x] Clipboard Manager implementation
 - [ ] Pomodoro Timer with animated hourglass and particle effects
-- [ ] Search functionality across accounts and notes
-- [ ] Dark/Light theme toggle
-- [ ] Custom categories with icons
-- [ ] Password strength indicator
-- [ ] Password generator
-- [ ] Bulk operations (export specific categories)
-- [ ] Data encryption option
-- [ ] Mobile-responsive improvements
+- [ ] Search and filter functionality for accounts
+- [ ] Configuration page with basic settings
+- [ ] Profile page with basic options
+- [ ] Shop section with simple content
+- [ ] More features to be added over time...
 
 ## 🤝 Contributing
 
