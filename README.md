@@ -4,25 +4,25 @@ A minimalist, local-first personal management application inspired by Japanese h
 
 ![Shizen Logo](resources/logo-shizen-sf.png)
 
-**Current Version: 1.1** - Focus on refinement and user experience improvements
+**Current Version: 1.1**
 
-## 🌸 Philosophy
+## Philosophy
 
 Shizen (自然) means "nature" or "natural" in Japanese. This application embodies the principles of simplicity, fluidity, and balance—creating a personal space where technology and tranquility meet.
 
-## ✨ Features
+## Features
 
-- **🔐 Account Management**: Securely store and organize your credentials with category-based autocomplete
-- **📋 Clipboard Manager**: Automatic clipboard history with temporary and permanent storage
-- **📝 Notes**: Create and manage personal notes with a clean interface
-- **⏰ Timer**: Pomodoro and custom timers with configurable sound notifications
-- **🎨 Dark Theme**: Elegant dark mode design for comfortable extended use
-- **💾 Local Storage**: All data stored locally in JSON format—no cloud, no tracking
-- **🔒 Privacy First**: Complete offline functionality, your data never leaves your device
-- **📦 Portable**: Export and import your data as JSON files
-- **🖼️ Profile Customization**: Upload and crop your profile picture with an intuitive interface
+- **Account Management**: Securely store and organize your credentials with category-based autocomplete
+- **Clipboard Manager**: Automatic clipboard history with temporary and permanent storage
+- **Notes**: Create and manage personal notes with a clean interface
+- **Timer**: Pomodoro and custom timers with configurable sound notifications
+- **Dark Theme**: Elegant dark mode design for comfortable extended use
+- **Local Storage**: All data stored locally in JSON format—no cloud, no tracking
+- **Privacy First**: Complete offline functionality, your data never leaves your device
+- **Portable**: Export and import your data as JSON files
+- **Profile Customization**: Upload and crop your profile picture with an intuitive interface
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Option 1: Use Online (Recommended)
 
@@ -44,7 +44,7 @@ cd shizen
 
 That's it! Shizen runs entirely in your browser with no server required.
 
-## 📖 Usage
+## Usage
 
 ### First Time Setup
 
@@ -101,7 +101,7 @@ That's it! Shizen runs entirely in your browser with no server required.
 ### Data Management
 
 **Exporting Data:**
-- Click your profile picture in the header → **"Exportar datos"**
+- Click the hamburger menu in the header and select **"Exportar datos"**
 - Save the JSON file in a secure location
 - This file contains all your accounts, notes, and settings
 
@@ -110,7 +110,7 @@ That's it! Shizen runs entirely in your browser with no server required.
 - Drag and drop your JSON file or click to browse
 - Your profile and all data will be restored
 
-## 🔒 Security & Privacy
+## Security & Privacy
 
 ### Important Security Notes
 
@@ -135,7 +135,7 @@ That's it! Shizen runs entirely in your browser with no server required.
 - All data processing happens locally in your browser
 - No accounts, no sign-ups, no servers
 
-## 🎨 Customization
+## Customization
 
 Shizen uses CSS custom properties for easy theming. Edit the CSS files to customize:
 
@@ -156,7 +156,7 @@ You can modify:
 - Border radius and shadows
 - Transitions and animations
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Frontend**: Vanilla JavaScript (ES6+)
 - **Styling**: Custom CSS with CSS Variables
@@ -164,7 +164,7 @@ You can modify:
 - **Storage**: Browser SessionStorage + JSON Export
 - **Fonts**: [Inter](https://fonts.google.com/specimen/Inter) from Google Fonts
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 shizen/
@@ -181,64 +181,7 @@ shizen/
     └── background-login.jpg
 ```
 
-## 🎯 Roadmap
-
-### Version 1.1 (Current) - Polish & Refinement
-Focus on improving user experience and fixing annoying issues:
-
-**Privacy & Security Improvements:**
-- [ ] Hide sensitive data from clipboard history (passwords copied from Account Manager)
-- [ ] Implement clipboard detection filters to exclude password fields
-- [ ] Add option to manually exclude clipboard items retroactively
-
-**Permission & State Management:**
-- [ ] Fix clipboard permission bug (stop asking repeatedly after approval)
-- [ ] Persistent permission state across sessions
-- [ ] Better permission error handling and user feedback
-- [ ] Cache permission states in localStorage
-
-**User Experience Enhancements:**
-- [ ] Add confirmation dialogs for destructive actions (delete account, clear clipboard)
-- [ ] Improve form validation with real-time feedback
-- [ ] Add keyboard shortcuts for common actions (Ctrl+N for new note, etc.)
-- [ ] Better mobile responsiveness and touch interactions
-- [ ] Add loading states for async operations
-
-**Performance Optimizations:**
-- [ ] Optimize clipboard monitoring to reduce CPU usage
-- [ ] Lazy load components for faster initial page load
-- [ ] Debounce search and filter operations
-- [ ] Reduce unnecessary re-renders
-
-**UI/UX Polish:**
-- [ ] Smoother transitions and animations
-- [ ] Toast notifications for user actions (copied, saved, deleted)
-- [ ] Empty state illustrations for sections with no data
-- [ ] Better visual hierarchy in account cards
-- [ ] Improved color contrast for accessibility
-
-### Version 1.2 - Feature Expansion
-- [ ] Search and advanced filter functionality for accounts
-- [ ] Bulk operations (select multiple accounts/notes)
-- [ ] Import/export individual sections (only accounts, only notes, etc.)
-- [ ] Account tags and advanced categorization
-- [ ] Note markdown support with preview
-
-### Version 1.3 - Extended Functionality
-- [ ] Configuration page with customizable settings
-- [ ] Profile page with detailed user preferences
-- [ ] Shop section for themes and extensions
-- [ ] Backup scheduling and auto-export
-- [ ] Password strength indicator and generator
-
-### Version 2.0 - Major Evolution
-- [ ] Optional encryption for JSON exports
-- [ ] Browser extension for quick access
-- [ ] Sync between devices (optional, privacy-focused)
-- [ ] Plugin system for community extensions
-- [ ] Advanced analytics and insights dashboard
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Here's how you can help:
 
@@ -250,37 +193,37 @@ Contributions are welcome! Here's how you can help:
 
 ### Areas for Contribution
 
-- Bug fixes and improvements from the v1.1 roadmap
-- New features from future versions
-- UI/UX enhancements
-- Documentation improvements
+- Bug fixes and improvements
+- New features and enhancements
+- UI/UX improvements
+- Documentation updates
 - Translations to other languages
 - Accessibility improvements
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Inspired by Japanese design philosophy and the concept of "Ma" (間) - negative space
 - Built with a focus on privacy, simplicity, and user autonomy
 - Icons by [Lucide](https://lucide.dev/)
 - Font by [Inter](https://rsms.me/inter/)
 
-## 📧 Support
+## Support
 
 If you encounter any issues or have suggestions:
 - Open an issue on GitHub
 - Check existing issues before creating a new one
 - Provide as much detail as possible (browser, OS, steps to reproduce)
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 Shizen is a personal project designed for convenience and local data management. It is not intended to replace professional password managers for highly sensitive information. Use at your own discretion and always maintain secure backups of your data.
 
 ---
 
-**Made with 🌸 by embracing simplicity and nature**
+**Made with nature by embracing simplicity**
 
 > "Simplicity is the ultimate sophistication." - Leonardo da Vinci
