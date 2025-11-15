@@ -139,7 +139,7 @@ That's it! Shizen runs entirely in your browser with no server required.
 
 Shizen uses CSS custom properties for easy theming. Edit the CSS files to customize:
 
-**`css/shizen-styles.css` or `css/login-styles.css`:**
+**`css/core.css` or `css/login-styles.css`:**
 ```css
 :root {
     --accent-primary: #FF5252;      /* Main accent color */
@@ -170,14 +170,34 @@ You can modify:
 shizen/
 ├── index.html              # Login/Welcome page
 ├── shizen.html            # Main dashboard
+├── README.md              # Project documentation
 ├── css/
+│   ├── core.css           # Core styles and CSS variables
 │   ├── login-styles.css   # Styles for welcome page
-│   └── shizen-styles.css  # Styles for dashboard
+│   ├── components/        # Reusable component styles
+│   │   ├── header.css
+│   │   ├── sidebar.css
+│   │   └── modals.css
+│   └── sections/          # Section-specific styles
+│       ├── dashboard.css
+│       ├── accounts.css
+│       ├── notes.css
+│       ├── clipboard.css
+│       ├── timer.css
+│       ├── profile.css
+│       └── help.css
 ├── js/
+│   ├── core.js            # Core functionality and initialization
+│   ├── utils.js           # Utility functions
 │   ├── login.js           # Authentication and profile setup
-│   └── shizen.js          # Dashboard functionality
+│   ├── accounts.js        # Account management module
+│   ├── clipboard.js       # Clipboard manager module
+│   ├── notes.js           # Notes module
+│   ├── timer.js           # Timer/Pomodoro module
+│   └── help.js            # Help/FAQ functionality
 └── resources/
     ├── logo-shizen-sf.png
+    ├── flor-shizen-64-sf.png
     └── background-login.jpg
 ```
 
