@@ -151,19 +151,19 @@ function setupEventListeners() {
         });
     });
 
-    // Cerrar dropdown al hacer click fuera
+    // Cerrar dropdowns al hacer click fuera
     document.addEventListener('click', function (e) {
-        const dropdown = document.getElementById('profileDropdown');
-        const userInfo = document.querySelector('.user-info');
-        if (dropdown && userInfo && !userInfo.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.classList.remove('active');
-        }
-    });
-
-    // Cerrar settings dropdown al hacer click fuera
-    document.addEventListener('click', function (e) {
+        const profileDropdown = document.getElementById('profileDropdown');
         const settingsDropdown = document.getElementById('settingsDropdown');
+        const userInfo = document.querySelector('.user-info');
         const hamburgerBtn = document.querySelector('.hamburger-btn');
+        
+        // Cerrar profile dropdown si el click no es en user-info ni en el dropdown
+        if (profileDropdown && userInfo && !userInfo.contains(e.target) && !profileDropdown.contains(e.target)) {
+            profileDropdown.classList.remove('active');
+        }
+        
+        // Cerrar settings dropdown si el click no es en hamburger ni en el dropdown
         if (settingsDropdown && hamburgerBtn && !hamburgerBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
             settingsDropdown.classList.remove('active');
         }
