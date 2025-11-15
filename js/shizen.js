@@ -26,6 +26,7 @@ const MAX_CLIPBOARD_ITEMS = 50;
 
 let editingAccountIndex = -1;
 let editingNoteIndex = -1;
+let recentlyCopiedPasswords = [];
 
 // Inicializar cuando carga la página
 document.addEventListener('DOMContentLoaded', function () {
@@ -504,10 +505,51 @@ function deleteNote(index) {
 
 function initClipboardDetector() {
     let lastClipboardContent = '';
-    let permissionAsked = false;
+    let clipboardPermissionGranted = localStorage.getItem('clipboardPermissionGranted') === 'true';
+    let permissionCheckInProgress = false;
 
-    // Verificar el portapapeles cada 1 segundo
+    // Función para verificar y solicitar permiso una sola vez
+    async function checkClipboardPermission() {
+        if (permissionCheckInProgress) return false;
+        
+        try {
+            permissionCheckInProgress = true;
+            
+            // Intentar leer el portapapeles
+            const text = await navigator.clipboard.readText();
+            
+            // Si llegamos aquí, tenemos permiso
+            if (!clipboardPermissionGranted) {
+                clipboardPermissionGranted = true;
+                localStorage.setItem('clipboardPermissionGranted', 'true');
+                console.log('✅ Permiso de portapapeles concedido');
+            }
+            
+            permissionCheckInProgress = false;
+            return true;
+        } catch (err) {
+            permissionCheckInProgress = false;
+            
+            // Si el error es de permiso denegado, no volver a preguntar
+            if (err.name === 'NotAllowedError') {
+                localStorage.setItem('clipboardPermissionGranted', 'false');
+                console.log('❌ Permiso de portapapeles denegado por el usuario');
+            }
+            
+            return false;
+        }
+    }
+
+    // Verificar permiso al inicio
+    checkClipboardPermission();
+
+    // Monitorear el portapapeles cada 1 segundo
     setInterval(async () => {
+        // No intentar si sabemos que no tenemos permiso
+        if (localStorage.getItem('clipboardPermissionGranted') === 'false') {
+            return;
+        }
+
         try {
             const text = await navigator.clipboard.readText();
             if (text && text.trim() && text !== lastClipboardContent) {
@@ -516,15 +558,17 @@ function initClipboardDetector() {
             }
         } catch (err) {
             // Silencioso - no mostrar errores repetitivos
-            if (!permissionAsked) {
-                permissionAsked = true;
-                console.log('💡 Tip: Permite el acceso al portapapeles para usar esta función');
-            }
         }
     }, 1000);
 }
 
 function addToTemporaryClipboard(text) {
+    // Filtrar contraseñas copiadas desde Account Manager
+    if (recentlyCopiedPasswords.includes(text)) {
+        console.log('🔒 Contraseña filtrada del historial del portapapeles');
+        return;
+    }
+    
     // Evitar duplicados consecutivos
     if (temporaryClipboard.length > 0 && temporaryClipboard[0].content === text) {
         return;
@@ -1256,6 +1300,16 @@ function selectSound(soundName) {
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
         showNotification('Copiado al portapapeles', 'success');
+        
+        // Si el texto copiado es una contraseña de alguna cuenta, agregarlo a la lista de exclusión
+        const isPassword = appData.accounts.some(acc => acc.password === text);
+        if (isPassword) {
+            recentlyCopiedPasswords.push(text);
+            // Limpiar la lista después de 5 segundos (tiempo suficiente para que no se agregue al historial)
+            setTimeout(() => {
+                recentlyCopiedPasswords = recentlyCopiedPasswords.filter(p => p !== text);
+            }, 5000);
+        }
     }).catch(() => {
         showNotification('Error al copiar', 'error');
     });
