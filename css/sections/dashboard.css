@@ -1,0 +1,84 @@
+/* ========================================
+   DASHBOARD
+   ======================================== */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-8);
+}
+
+/* ========================================
+   STAT CARDS
+   ======================================== */
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-5);
+    padding: var(--spacing-6);
+}
+
+.stat-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-icon i {
+    width: 2rem;
+    height: 2rem;
+    color: white;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: var(--spacing-2);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   WELCOME CARD
+   ======================================== */
+
+.welcome-card {
+    background: linear-gradient(135deg, rgba(255, 82, 82, 0.1), rgba(129, 199, 132, 0.05));
+    border: 1px solid rgba(255, 82, 82, 0.2);
+}
+
+.welcome-card h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-3);
+    color: var(--text-primary);
+}
+
+.welcome-card p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

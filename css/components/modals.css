@@ -1,0 +1,208 @@
+/* ========================================
+   MODAL
+   ======================================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-6);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-xl);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    animation: modalSlideIn 0.3s;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   MODAL HEADER
+   ======================================== */
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-6);
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.modal-header h2 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--spacing-2);
+    border-radius: var(--radius-md);
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.modal-close i {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* ========================================
+   MODAL BODY
+   ======================================== */
+
+.modal-body {
+    padding: var(--spacing-6);
+}
+
+/* ========================================
+   MODAL FOOTER
+   ======================================== */
+
+.modal-footer {
+    display: flex;
+    gap: var(--spacing-4);
+    padding: var(--spacing-6);
+    border-top: 1px solid var(--border-primary);
+}
+
+.modal-footer .btn-secondary,
+.modal-footer .btn-primary {
+    flex: 1;
+    justify-content: center;
+}
+
+/* ========================================
+   PASSWORD INPUT WRAPPER
+   ======================================== */
+
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper .input {
+    padding-right: 3rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: var(--spacing-3);
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--spacing-2);
+    border-radius: var(--radius-md);
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+}
+
+.password-toggle i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* ========================================
+   AUTOCOMPLETE SUGGESTIONS
+   ======================================== */
+
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-top: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+}
+
+.suggestion-item {
+    padding: var(--spacing-3) var(--spacing-4);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover,
+.suggestion-item.selected {
+    background: rgba(255, 82, 82, 0.1);
+}
+
+.suggestion-name {
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.suggestion-count {
+    background: rgba(255, 82, 82, 0.2);
+    color: var(--accent-primary);
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}

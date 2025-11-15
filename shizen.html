@@ -7,7 +7,22 @@
     <title>Shizen</title>
     <link rel="icon" type="image/png" href="resources/flor-shizen-64-sf.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/shizen-styles.css">
+    <!-- CSS Core -->
+    <link rel="stylesheet" href="css/core.css">
+
+    <!-- CSS Components -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/sidebar.css">
+    <link rel="stylesheet" href="css/components/modals.css">
+
+    <!-- CSS Sections -->
+    <link rel="stylesheet" href="css/sections/dashboard.css">
+    <link rel="stylesheet" href="css/sections/accounts.css">
+    <link rel="stylesheet" href="css/sections/notes.css">
+    <link rel="stylesheet" href="css/sections/clipboard.css">
+    <link rel="stylesheet" href="css/sections/timer.css">
+    <link rel="stylesheet" href="css/sections/profile.css">
+    <link rel="stylesheet" href="css/sections/help.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -370,50 +385,306 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Profile Section -->
+            <section id="section-profile" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Perfil</h1>
+                        <p class="section-description">Información de tu cuenta</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <p>Sección de perfil en desarrollo...</p>
+                </div>
+            </section>
+
+            <!-- Help Section -->
+            <section id="section-help" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Ayuda</h1>
+                        <p class="section-description">Guías y preguntas frecuentes</p>
+                    </div>
+                </div>
+
+                <div class="help-container">
+                    <!-- Cuentas -->
+                    <div class="help-category">
+                        <h2 class="help-category-title">
+                            <i data-lucide="key"></i>
+                            Gestión de Cuentas
+                        </h2>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cómo guardo una cuenta?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <ol>
+                                    <li>Haz click en "Nueva cuenta" en la sección de Cuentas</li>
+                                    <li>Escribe la categoría (ej: Gmail, Instagram, Netflix)</li>
+                                    <li>Ingresa tu usuario y contraseña</li>
+                                    <li>Opcionalmente agrega notas (códigos 2FA, respuestas de seguridad)</li>
+                                    <li>Click en "Guardar"</li>
+                                </ol>
+                                <p><strong>Tip:</strong> Las categorías se autocompletán si ya existen, facilitando la
+                                    organización.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cómo copio mis credenciales?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Cada tarjeta de cuenta tiene botones de acción:</p>
+                                <ul>
+                                    <li><strong>Icono de usuario:</strong> Copia el nombre de usuario</li>
+                                    <li><strong>Icono de llave:</strong> Copia la contraseña</li>
+                                </ul>
+                                <p><strong>Nota de privacidad:</strong> Las contraseñas copiadas no aparecen en el
+                                    historial del
+                                    portapapeles.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Para qué sirve desactivar una cuenta?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>El botón de encendido (power) te permite desactivar cuentas temporalmente sin
+                                    eliminarlas.
+                                    Útil para:</p>
+                                <ul>
+                                    <li>Cuentas que ya no usas pero quieres conservar</li>
+                                    <li>Servicios que cancelaste pero necesitas los datos</li>
+                                    <li>Reducir el desorden visual sin perder información</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portapapeles -->
+                    <div class="help-category">
+                        <h2 class="help-category-title">
+                            <i data-lucide="clipboard"></i>
+                            Portapapeles
+                        </h2>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cómo funciona el portapapeles automático?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Shizen detecta automáticamente todo lo que copies en tu computadora y lo guarda en la
+                                    pestaña
+                                    "Temporales":</p>
+                                <ul>
+                                    <li>No necesitas hacer nada especial, solo copia como siempre</li>
+                                    <li>Guarda hasta 50 elementos durante tu sesión</li>
+                                    <li>Detecta el tipo de contenido (URL, email, código, texto, número)</li>
+                                    <li>Se limpia al cerrar sesión</li>
+                                </ul>
+                                <p><strong>Importante:</strong> Necesitas dar permiso al navegador la primera vez.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cuál es la diferencia entre Temporales y Guardados?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p><strong>Temporales:</strong></p>
+                                <ul>
+                                    <li>Historial automático de todo lo que copias</li>
+                                    <li>Se borra al cerrar sesión</li>
+                                    <li>No se exporta en el JSON</li>
+                                    <li>Máximo 50 items</li>
+                                </ul>
+                                <p><strong>Guardados:</strong></p>
+                                <ul>
+                                    <li>Items que guardas manualmente con el botón de marcador</li>
+                                    <li>Permanecen entre sesiones</li>
+                                    <li>Se incluyen en el archivo JSON exportado</li>
+                                    <li>Sin límite de cantidad</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Por qué no veo mis contraseñas en el historial?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Por seguridad, las contraseñas que copies desde el Gestor de Cuentas de Shizen se
+                                    filtran
+                                    automáticamente y no aparecen en el historial del portapapeles.</p>
+                                <p>Esto evita que contraseñas sensibles queden expuestas accidentalmente.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notas -->
+                    <div class="help-category">
+                        <h2 class="help-category-title">
+                            <i data-lucide="sticky-note"></i>
+                            Notas
+                        </h2>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cómo creo una nota?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <ol>
+                                    <li>Ve a la sección de Notas</li>
+                                    <li>Click en "Nueva nota"</li>
+                                    <li>Escribe un título y contenido</li>
+                                    <li>Click en "Guardar"</li>
+                                </ol>
+                                <p>Las notas se guardan automáticamente con fecha y hora.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Temporizador -->
+                    <div class="help-category">
+                        <h2 class="help-category-title">
+                            <i data-lucide="timer"></i>
+                            Temporizador
+                        </h2>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Qué es la técnica Pomodoro?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Es una técnica de productividad que consiste en:</p>
+                                <ol>
+                                    <li>Trabajar 25 minutos concentrado (Pomodoro)</li>
+                                    <li>Descansar 5 minutos (Descanso corto)</li>
+                                    <li>Después de 4 pomodoros, descansar 15 minutos (Descanso largo)</li>
+                                </ol>
+                                <p>Shizen tiene botones rápidos para cada modo.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cómo personalizo los sonidos?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Click en el botón de configuración (engranaje) junto al temporizador para elegir
+                                    entre 6
+                                    sonidos diferentes: Campana, Beep, Chime, Ding, Digital y Suave.</p>
+                                <p>También puedes silenciar completamente con el botón de volumen.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- General -->
+                    <div class="help-category">
+                        <h2 class="help-category-title">
+                            <i data-lucide="help-circle"></i>
+                            General
+                        </h2>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cómo exporto mis datos?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <ol>
+                                    <li>Click en el menú hamburguesa (tres líneas) en el header</li>
+                                    <li>Selecciona "Exportar datos"</li>
+                                    <li>Se descargará un archivo JSON con toda tu información</li>
+                                </ol>
+                                <p><strong>Importante:</strong> Guarda este archivo en un lugar seguro. Contiene tus
+                                    contraseñas
+                                    en texto plano.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Mis datos están seguros?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Shizen es 100% local y privado:</p>
+                                <ul>
+                                    <li>No hay servidores externos</li>
+                                    <li>No se envía información a internet</li>
+                                    <li>Todo se guarda en tu navegador</li>
+                                    <li>Solo tú tienes acceso a tus datos</li>
+                                </ul>
+                                <p><strong>Nota:</strong> Las contraseñas se guardan en texto plano en el JSON.
+                                    Considera
+                                    encriptar tus exportaciones con herramientas como 7-Zip o GPG.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Puedo usar Shizen en mi teléfono?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Sí, Shizen funciona en navegadores móviles, aunque la experiencia está optimizada
+                                    para
+                                    escritorio.</p>
+                                <p>Puedes acceder desde cualquier dispositivo en: <a
+                                        href="https://lucaslr2.github.io/Shizen/"
+                                        target="_blank">lucaslr2.github.io/Shizen</a></p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Qué pasa si pierdo mi archivo JSON?</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Lamentablemente, si pierdes tu archivo JSON y cierras sesión, perderás todos tus
+                                    datos.
+                                    Shizen no tiene respaldo en la nube.</p>
+                                <p><strong>Recomendación:</strong> Exporta tus datos regularmente y guárdalos en
+                                    múltiples
+                                    lugares seguros (USB, nube encriptada, etc.)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Info Section -->
+            <section id="section-info" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Información</h1>
+                        <p class="section-description">Acerca de Shizen</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <p>Sección de información en desarrollo...</p>
+                </div>
+            </section>
         </main>
     </div>
-
-    <!-- Profile Section -->
-    <section id="section-profile" class="section">
-        <div class="section-header">
-            <div class="section-title">
-                <h1>Perfil</h1>
-                <p class="section-description">Información de tu cuenta</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <p>Sección de perfil en desarrollo...</p>
-        </div>
-    </section>
-
-    <!-- Help Section -->
-    <section id="section-help" class="section">
-        <div class="section-header">
-            <div class="section-title">
-                <h1>Ayuda</h1>
-                <p class="section-description">Guías y tutoriales</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <p>Sección de ayuda en desarrollo...</p>
-        </div>
-    </section>
-
-    <!-- Info Section -->
-    <section id="section-info" class="section">
-        <div class="section-header">
-            <div class="section-title">
-                <h1>Información</h1>
-                <p class="section-description">Acerca de Shizen</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <p>Sección de información en desarrollo...</p>
-        </div>
-    </section>
 
     <!-- Notification -->
     <div id="notification" class="notification"></div>
@@ -488,7 +759,16 @@
         </div>
     </div>
 
-    <script src="js/shizen.js"></script>
+    <!-- JavaScript Core -->
+    <script src="js/core.js"></script>
+    <script src="js/utils.js"></script>
+
+    <!-- JavaScript Modules -->
+    <script src="js/accounts.js"></script>
+    <script src="js/clipboard.js"></script>
+    <script src="js/notes.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/help.js"></script>
 </body>
 
 </html>

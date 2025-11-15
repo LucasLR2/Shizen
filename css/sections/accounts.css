@@ -1,0 +1,131 @@
+/* ========================================
+   ACCOUNTS GRID
+   ======================================== */
+
+.accounts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-6);
+}
+
+/* ========================================
+   ACCOUNT CARD
+   ======================================== */
+
+.account-card {
+    padding: var(--spacing-6);
+}
+
+.account-card.inactive {
+    opacity: 0.6;
+    transform: scale(0.98);
+    border-color: var(--border-secondary);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.account-card.inactive:hover {
+    transform: scale(0.98);
+    opacity: 0.6;
+}
+
+/* ========================================
+   ACCOUNT HEADER
+   ======================================== */
+
+.account-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-5);
+}
+
+.account-icon {
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, var(--accent-primary), #ff6b6b);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.account-icon i {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+}
+
+.account-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.account-info h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.account-info p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ========================================
+   CATEGORY BADGE
+   ======================================== */
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 82, 82, 0.2);
+    color: var(--accent-primary);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    margin-left: var(--spacing-2);
+    min-width: 1.5rem;
+}
+
+/* ========================================
+   ACCOUNT ACTIONS
+   ======================================== */
+
+.account-actions {
+    display: flex;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+}
+
+/* ========================================
+   ACCOUNT NOTES
+   ======================================== */
+
+.account-notes {
+    margin-top: var(--spacing-4);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .accounts-grid {
+        grid-template-columns: 1fr;
+    }
+}

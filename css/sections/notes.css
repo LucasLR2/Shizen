@@ -1,0 +1,83 @@
+/* ========================================
+   NOTES GRID
+   ======================================== */
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-6);
+}
+
+/* ========================================
+   NOTE CARD
+   ======================================== */
+
+.note-card {
+    padding: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========================================
+   NOTE HEADER
+   ======================================== */
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-4);
+    gap: var(--spacing-3);
+}
+
+.note-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+    word-break: break-word;
+}
+
+.note-actions {
+    display: flex;
+    gap: var(--spacing-2);
+    flex-shrink: 0;
+}
+
+/* ========================================
+   NOTE CONTENT
+   ======================================== */
+
+.note-content {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-4);
+    flex: 1;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ========================================
+   NOTE FOOTER
+   ======================================== */
+
+.note-footer {
+    padding-top: var(--spacing-3);
+    border-top: 1px solid var(--border-primary);
+}
+
+.note-date {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .notes-grid {
+        grid-template-columns: 1fr;
+    }
+}

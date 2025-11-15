@@ -1,0 +1,211 @@
+/* ========================================
+   HEADER
+   ======================================== */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-6);
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   LOGO
+   ======================================== */
+
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo-icon {
+    height: 3.5rem;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* ========================================
+   HEADER NAVIGATION
+   ======================================== */
+
+.header-nav {
+    display: flex;
+    gap: var(--spacing-8);
+}
+
+.header-nav-item {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.header-nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-primary), #ff6b6b);
+    transition: width 0.4s;
+}
+
+.header-nav-item:hover,
+.header-nav-item.active {
+    color: var(--text-primary);
+}
+
+.header-nav-item:hover::after,
+.header-nav-item.active::after {
+    width: 100%;
+}
+
+/* ========================================
+   HEADER ACTIONS
+   ======================================== */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+/* ========================================
+   USER INFO
+   ======================================== */
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.user-info:hover {
+    background: rgba(255, 82, 82, 0.1);
+}
+
+.user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--accent-primary);
+    object-fit: cover;
+}
+
+/* ========================================
+   DROPDOWNS
+   ======================================== */
+
+.profile-dropdown,
+.settings-dropdown {
+    position: absolute;
+    top: 70px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2) 0;
+    min-width: 200px;
+    display: none;
+    box-shadow: var(--shadow-xl);
+    z-index: 2000;
+}
+
+.profile-dropdown {
+    right: 6rem;
+}
+
+.settings-dropdown {
+    right: 2rem;
+}
+
+.profile-dropdown.active,
+.settings-dropdown.active {
+    display: block;
+}
+
+.dropdown-item {
+    padding: var(--spacing-3) var(--spacing-6);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+    background: var(--bg-tertiary);
+    color: var(--accent-primary);
+}
+
+.dropdown-item i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--border-primary);
+    margin: var(--spacing-2) 0;
+}
+
+/* ========================================
+   HAMBURGER BUTTON
+   ======================================== */
+
+.hamburger-btn {
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: var(--spacing-3);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: var(--spacing-2);
+}
+
+.hamburger-btn:hover {
+    background: rgba(255, 82, 82, 0.1);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.hamburger-btn i {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .header-nav {
+        display: none;
+    }
+}

@@ -1,0 +1,349 @@
+/* ========================================
+   TIMER CONTAINER
+   ======================================== */
+
+.timer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   TIMER LAYOUT
+   ======================================== */
+
+.timer-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-10);
+    align-items: center;
+}
+
+.timer-left-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+}
+
+.timer-right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-8);
+}
+
+/* ========================================
+   TIMER CONTROLS GROUP
+   ======================================== */
+
+.timer-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.timer-section-title {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ========================================
+   TIMER MODES
+   ======================================== */
+
+.timer-modes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.timer-mode-btn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    text-align: left;
+}
+
+.timer-mode-btn i {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+
+.timer-mode-btn:hover {
+    background: var(--bg-accent);
+    border-color: var(--border-accent);
+    color: var(--text-primary);
+    transform: translateX(4px);
+}
+
+.timer-mode-btn.active {
+    background: linear-gradient(135deg, rgba(255, 82, 82, 0.15), rgba(129, 199, 132, 0.1));
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+/* ========================================
+   CUSTOM TIMER
+   ======================================== */
+
+.timer-custom {
+    display: flex;
+    gap: var(--spacing-3);
+    align-items: center;
+}
+
+.timer-custom input {
+    flex: 1;
+    text-align: center;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    padding: var(--spacing-4);
+}
+
+.timer-custom-separator {
+    color: var(--text-secondary);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+}
+
+.timer-custom-btn {
+    width: auto;
+    padding: var(--spacing-4);
+}
+
+/* Ocultar flechas de inputs number */
+#customMinutes::-webkit-outer-spin-button,
+#customMinutes::-webkit-inner-spin-button,
+#customSeconds::-webkit-outer-spin-button,
+#customSeconds::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#customMinutes,
+#customSeconds {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* ========================================
+   TIMER STATS
+   ======================================== */
+
+.timer-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.timer-stat-value {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--accent-primary);
+    line-height: 1;
+}
+
+.timer-stat-label {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   TIMER CIRCLE
+   ======================================== */
+
+.timer-circle-wrapper {
+    position: relative;
+    width: 360px;
+    height: 360px;
+}
+
+.timer-circle {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.timer-circle-bg {
+    fill: none;
+    stroke: var(--bg-tertiary);
+    stroke-width: 12;
+}
+
+.timer-circle-progress {
+    fill: none;
+    stroke: url(#timerGradient);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 879.6;
+    stroke-dashoffset: 879.6;
+    transition: stroke-dashoffset 1s linear;
+}
+
+.timer-display-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.timer-display {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: var(--spacing-3);
+}
+
+.timer-mode-label {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+}
+
+/* ========================================
+   TIMER CONTROLS
+   ======================================== */
+
+.timer-controls {
+    display: flex;
+    gap: var(--spacing-4);
+    justify-content: center;
+}
+
+.timer-control-btn {
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-control-btn i {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: white;
+}
+
+.timer-control-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-xl);
+}
+
+.timer-start {
+    background: linear-gradient(135deg, var(--accent-secondary), #66BB6A);
+}
+
+.timer-pause {
+    background: linear-gradient(135deg, var(--accent-warning), #FFA726);
+}
+
+.timer-stop {
+    background: linear-gradient(135deg, var(--accent-primary), #ff6b6b);
+}
+
+/* ========================================
+   TIMER ANIMATIONS
+   ======================================== */
+
+.timer-circle.timer-complete {
+    animation: timerPulse 0.6s ease-in-out 3;
+}
+
+@keyframes timerPulse {
+    0%, 100% { 
+        transform: rotate(-90deg) scale(1); 
+    }
+    50% { 
+        transform: rotate(-90deg) scale(1.05); 
+    }
+}
+
+/* ========================================
+   SOUND OPTIONS
+   ======================================== */
+
+.sound-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-4);
+}
+
+.sound-option {
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: var(--spacing-5);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+    font-weight: 500;
+}
+
+.sound-option i {
+    width: 2rem;
+    height: 2rem;
+}
+
+.sound-option:hover {
+    background: var(--bg-accent);
+    border-color: var(--border-accent);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.sound-option.active {
+    background: linear-gradient(135deg, rgba(255, 82, 82, 0.2), rgba(129, 199, 132, 0.1));
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 968px) {
+    .timer-layout {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .timer-circle-wrapper {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .timer-display {
+        font-size: 3rem;
+    }
+    
+    .timer-control-btn {
+        width: 4rem;
+        height: 4rem;
+    }
+}
