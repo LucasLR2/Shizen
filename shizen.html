@@ -30,20 +30,46 @@
             </div>
         </nav>
 
-        <div class="user-info" onclick="toggleProfileDropdown()">
-            <img id="headerProfilePic" src="" alt="Profile" class="user-avatar">
-            <span id="headerProfileName">Usuario</span>
-            <i data-lucide="chevron-down"></i>
+        <div class="header-actions">
+            <div class="user-info" onclick="toggleProfileDropdown()">
+                <img id="headerProfilePic" src="" alt="Profile" class="user-avatar">
+                <span id="headerProfileName">Usuario</span>
+                <i data-lucide="chevron-down"></i>
+            </div>
+
+            <button class="hamburger-btn" onclick="toggleSettingsMenu()">
+                <i data-lucide="menu"></i>
+            </button>
         </div>
 
         <div class="profile-dropdown" id="profileDropdown">
-            <div class="dropdown-item" onclick="exportData()">
-                <i data-lucide="download"></i>
-                <span>Exportar datos</span>
+            <div class="dropdown-item" onclick="showSection('profile')">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
             </div>
             <div class="dropdown-item" onclick="logout()">
                 <i data-lucide="log-out"></i>
                 <span>Cerrar sesión</span>
+            </div>
+        </div>
+
+        <div class="settings-dropdown" id="settingsDropdown">
+            <div class="dropdown-item" onclick="exportData()">
+                <i data-lucide="download"></i>
+                <span>Exportar datos</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" onclick="showSection('support')">
+                <i data-lucide="life-buoy"></i>
+                <span>Soporte</span>
+            </div>
+            <div class="dropdown-item" onclick="showSection('help')">
+                <i data-lucide="help-circle"></i>
+                <span>Ayuda</span>
+            </div>
+            <div class="dropdown-item" onclick="showSection('info')">
+                <i data-lucide="info"></i>
+                <span>Info</span>
             </div>
         </div>
     </header>
@@ -346,6 +372,62 @@
             </section>
         </main>
     </div>
+
+    <!-- Profile Section -->
+    <section id="section-profile" class="section">
+        <div class="section-header">
+            <div class="section-title">
+                <h1>Perfil</h1>
+                <p class="section-description">Información de tu cuenta</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <p>Sección de perfil en desarrollo...</p>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="section-support" class="section">
+        <div class="section-header">
+            <div class="section-title">
+                <h1>Soporte</h1>
+                <p class="section-description">¿Necesitas ayuda?</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <p>Sección de soporte en desarrollo...</p>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section id="section-help" class="section">
+        <div class="section-header">
+            <div class="section-title">
+                <h1>Ayuda</h1>
+                <p class="section-description">Guías y tutoriales</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <p>Sección de ayuda en desarrollo...</p>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section id="section-info" class="section">
+        <div class="section-header">
+            <div class="section-title">
+                <h1>Información</h1>
+                <p class="section-description">Acerca de Shizen</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <p>Sección de información en desarrollo...</p>
+        </div>
+    </section>
 
     <!-- Notification -->
     <div id="notification" class="notification"></div>

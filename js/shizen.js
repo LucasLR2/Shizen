@@ -160,6 +160,15 @@ function setupEventListeners() {
         }
     });
 
+    // Cerrar settings dropdown al hacer click fuera
+    document.addEventListener('click', function (e) {
+        const settingsDropdown = document.getElementById('settingsDropdown');
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        if (settingsDropdown && hamburgerBtn && !hamburgerBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
+            settingsDropdown.classList.remove('active');
+        }
+    });
+
     // Cerrar modales al hacer click fuera
     window.addEventListener('click', function (e) {
         const accountModal = document.getElementById('accountModal');
@@ -201,6 +210,16 @@ function showSection(sectionName) {
 
 function toggleProfileDropdown() {
     const dropdown = document.getElementById('profileDropdown');
+    dropdown.classList.toggle('active');
+
+    // Reinicializar iconos después de toggle
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+function toggleSettingsMenu() {
+    const dropdown = document.getElementById('settingsDropdown');
     dropdown.classList.toggle('active');
 
     // Reinicializar iconos después de toggle

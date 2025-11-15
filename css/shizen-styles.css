@@ -154,6 +154,12 @@ body {
     width: 100%;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
 .user-info {
     display: flex;
     align-items: center;
@@ -180,7 +186,7 @@ body {
 .profile-dropdown {
     position: absolute;
     top: 70px;
-    right: 2rem;
+    right: 6rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-lg);
@@ -213,6 +219,55 @@ body {
 .dropdown-item i {
     width: 1.25rem;
     height: 1.25rem;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--border-primary);
+    margin: var(--spacing-2) 0;
+}
+
+.hamburger-btn {
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: var(--spacing-3);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: var(--spacing-2);
+}
+
+.hamburger-btn:hover {
+    background: rgba(255, 82, 82, 0.1);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.hamburger-btn i {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.settings-dropdown {
+    position: absolute;
+    top: 70px;
+    right: 2rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2) 0;
+    min-width: 200px;
+    display: none;
+    box-shadow: var(--shadow-xl);
+    z-index: 2000;
+}
+
+.settings-dropdown.active {
+    display: block;
 }
 
 /* Main Layout */
