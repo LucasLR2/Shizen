@@ -4,6 +4,8 @@ A minimalist, local-first personal management application inspired by Japanese h
 
 ![Shizen Logo](resources/logo-shizen-sf.png)
 
+**Current Version: 1.1** - Focus on refinement and user experience improvements
+
 ## 🌸 Philosophy
 
 Shizen (自然) means "nature" or "natural" in Japanese. This application embodies the principles of simplicity, fluidity, and balance—creating a personal space where technology and tranquility meet.
@@ -181,13 +183,60 @@ shizen/
 
 ## 🎯 Roadmap
 
-- [x] Clipboard Manager implementation
-- [x] Timer with sound notifications and system alerts
-- [ ] Search and filter functionality for accounts
-- [ ] Configuration page with basic settings
-- [ ] Profile page with basic options
-- [ ] Shop section with simple content
-- [ ] More features to be added over time...
+### Version 1.1 (Current) - Polish & Refinement
+Focus on improving user experience and fixing annoying issues:
+
+**Privacy & Security Improvements:**
+- [ ] Hide sensitive data from clipboard history (passwords copied from Account Manager)
+- [ ] Implement clipboard detection filters to exclude password fields
+- [ ] Add option to manually exclude clipboard items retroactively
+
+**Permission & State Management:**
+- [ ] Fix clipboard permission bug (stop asking repeatedly after approval)
+- [ ] Persistent permission state across sessions
+- [ ] Better permission error handling and user feedback
+- [ ] Cache permission states in localStorage
+
+**User Experience Enhancements:**
+- [ ] Add confirmation dialogs for destructive actions (delete account, clear clipboard)
+- [ ] Improve form validation with real-time feedback
+- [ ] Add keyboard shortcuts for common actions (Ctrl+N for new note, etc.)
+- [ ] Better mobile responsiveness and touch interactions
+- [ ] Add loading states for async operations
+
+**Performance Optimizations:**
+- [ ] Optimize clipboard monitoring to reduce CPU usage
+- [ ] Lazy load components for faster initial page load
+- [ ] Debounce search and filter operations
+- [ ] Reduce unnecessary re-renders
+
+**UI/UX Polish:**
+- [ ] Smoother transitions and animations
+- [ ] Toast notifications for user actions (copied, saved, deleted)
+- [ ] Empty state illustrations for sections with no data
+- [ ] Better visual hierarchy in account cards
+- [ ] Improved color contrast for accessibility
+
+### Version 1.2 - Feature Expansion
+- [ ] Search and advanced filter functionality for accounts
+- [ ] Bulk operations (select multiple accounts/notes)
+- [ ] Import/export individual sections (only accounts, only notes, etc.)
+- [ ] Account tags and advanced categorization
+- [ ] Note markdown support with preview
+
+### Version 1.3 - Extended Functionality
+- [ ] Configuration page with customizable settings
+- [ ] Profile page with detailed user preferences
+- [ ] Shop section for themes and extensions
+- [ ] Backup scheduling and auto-export
+- [ ] Password strength indicator and generator
+
+### Version 2.0 - Major Evolution
+- [ ] Optional encryption for JSON exports
+- [ ] Browser extension for quick access
+- [ ] Sync between devices (optional, privacy-focused)
+- [ ] Plugin system for community extensions
+- [ ] Advanced analytics and insights dashboard
 
 ## 🤝 Contributing
 
@@ -201,13 +250,14 @@ Contributions are welcome! Here's how you can help:
 
 ### Areas for Contribution
 
-- Bug fixes and improvements
-- New features from the roadmap
+- Bug fixes and improvements from the v1.1 roadmap
+- New features from future versions
 - UI/UX enhancements
 - Documentation improvements
 - Translations to other languages
+- Accessibility improvements
 
-## 📝 License
+## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
