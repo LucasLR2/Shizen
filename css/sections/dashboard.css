@@ -1,84 +1,578 @@
 /* ========================================
-   DASHBOARD
+   SHIZEN DASHBOARD - REDISEÑO COMPLETO
+   Con símbolo rojo y fondo dashboard.png
    ======================================== */
 
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-6);
-    margin-bottom: var(--spacing-8);
+:root {
+    --shizen-red: #E85D5D;
+    --shizen-red-dark: #d64545;
+    --shizen-red-light: #ff7272;
+}
+
+.dashboard-container {
+    height: calc(100vh - var(--header-height) - 4rem);
+    position: relative;
 }
 
 /* ========================================
-   STAT CARDS
+   HERO PRINCIPAL
    ======================================== */
 
-.stat-card {
+.dashboard-hero {
+    position: relative;
+    height: 100%;
+    background: #0f0f15;
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(232, 93, 93, 0.15);
+    padding: var(--spacing-12) var(--spacing-10);
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    gap: var(--spacing-5);
-    padding: var(--spacing-6);
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-.stat-icon {
-    width: 4rem;
-    height: 4rem;
-    border-radius: var(--radius-lg);
+/* Imagen de fondo dashboard.png */
+.dashboard-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../resources/dashboard.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ========================================
+   PÉTALOS DE SAKURA
+   ======================================== */
+
+.hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.sakura-petal {
+    position: absolute;
+    background: linear-gradient(135deg, 
+        rgba(232, 93, 93, 0.8) 0%,
+        rgba(255, 114, 114, 0.7) 50%,
+        rgba(255, 182, 193, 0.5) 100%
+    );
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+    filter: blur(0.3px);
+    box-shadow: 
+        0 2px 8px rgba(232, 93, 93, 0.4),
+        inset -2px -2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.sakura-petal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 30% 30%, 
+        rgba(232, 93, 93, 0.6) 0%,
+        transparent 60%
+    );
+    border-radius: inherit;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50vh) translateX(30px) rotate(180deg) scale(0.9);
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(110vh) translateX(-20px) rotate(360deg) scale(0.7);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   SÍMBOLO SHIZEN - Derecha
+   ======================================== */
+
+.shizen-symbol {
+    position: absolute;
+    top: 45%;
+    right: 2%;  /* CAMBIO: era 5%, ahora más a la derecha */
+    transform: translateY(-50%);
+    width: clamp(200px, 25vw, 350px);  /* CAMBIO: era 300-500px, ahora más chico */
+    height: auto;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    animation: symbolAppear 1.5s ease-out 0.5s forwards,
+               symbolPulse 6s ease-in-out 2s infinite;  /* CAMBIO: era 4s, ahora 6s (más lento) */
+    filter: 
+        drop-shadow(0 0 40px rgba(232, 93, 93, 0.6))
+        drop-shadow(0 0 80px rgba(232, 93, 93, 0.4))
+        drop-shadow(0 20px 60px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes symbolAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.8) rotate(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) scale(1) rotate(0deg);
+    }
+}
+
+@keyframes symbolPulse {
+    0%, 100% {
+        filter: 
+            drop-shadow(0 0 40px rgba(232, 93, 93, 0.6))
+            drop-shadow(0 0 80px rgba(232, 93, 93, 0.4))
+            drop-shadow(0 20px 60px rgba(0, 0, 0, 0.5));
+        transform: translateY(-50%) scale(1);  /* AGREGADO: para movimiento más sutil */
+    }
+    50% {
+        filter: 
+            drop-shadow(0 0 45px rgba(232, 93, 93, 0.7))  /* CAMBIO: era 50px, ahora 45px (menos intenso) */
+            drop-shadow(0 0 90px rgba(232, 93, 93, 0.5))  /* CAMBIO: era 100px, ahora 90px */
+            drop-shadow(0 20px 60px rgba(0, 0, 0, 0.5));
+        transform: translateY(-50%) scale(1.03);  /* CAMBIO: era 1.05, ahora 1.03 (casi imperceptible) */
+    }
+}
+
+/* ========================================
+   CONTENIDO SUPERIOR
+   ======================================== */
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 55%;
+}
+
+.hero-greeting {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        #ffffff 0%,
+        #ffffff 40%,
+        #E85D5D 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--spacing-4);
+    animation: fadeInDown 1s ease-out;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-shadow: 0 0 40px rgba(232, 93, 93, 0.3);
+}
+
+.hero-greeting-accent {
+    color: var(--shizen-red);
+    -webkit-text-fill-color: var(--shizen-red);
+    position: relative;
+    display: inline-block;
+}
+
+.hero-greeting-accent::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--shizen-red) 0%,
+        var(--shizen-red-light) 50%,
+        transparent 100%
+    );
+    box-shadow: 0 0 20px rgba(232, 93, 93, 0.6);
+    animation: underlineGrow 1.5s ease-out 0.5s both;
+}
+
+@keyframes underlineGrow {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.zen-quote-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+    margin-top: var(--spacing-6);
+    padding-left: var(--spacing-2);
+    border-left: 3px solid var(--shizen-red);
+    animation: fadeIn 1.2s ease-out 0.3s both;
 }
 
-.stat-icon i {
-    width: 2rem;
-    height: 2rem;
-    color: white;
-}
-
-.stat-info {
+.zen-quote-content {
     flex: 1;
 }
 
-.stat-value {
-    font-size: var(--font-size-3xl);
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1;
+.zen-quote {
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    line-height: 1.7;
     margin-bottom: var(--spacing-2);
+    font-weight: 300;
 }
 
-.stat-label {
-    color: var(--text-secondary);
+.zen-quote-author {
     font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    letter-spacing: 0.05em;
 }
 
 /* ========================================
-   WELCOME CARD
+   STATS GRID
    ======================================== */
 
-.welcome-card {
-    background: linear-gradient(135deg, rgba(255, 82, 82, 0.1), rgba(129, 199, 132, 0.05));
-    border: 1px solid rgba(255, 82, 82, 0.2);
+.dashboard-stats {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-5);
+    max-width: 900px;
 }
 
-.welcome-card h2 {
-    font-size: var(--font-size-2xl);
-    margin-bottom: var(--spacing-3);
-    color: var(--text-primary);
+.stat-badge {
+    position: relative;
+    padding: var(--spacing-6);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    animation: slideUp 0.8s ease-out both;
+    cursor: pointer;
 }
 
-.welcome-card p {
-    color: var(--text-secondary);
-    font-size: var(--font-size-base);
+.stat-badge:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.stat-badge:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+.stat-badge:nth-child(3) {
+    animation-delay: 0.7s;
+}
+
+/* Efecto de brillo al hover */
+.stat-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(232, 93, 93, 0.1) 50%,
+        transparent 100%
+    );
+    transition: left 0.6s ease;
+}
+
+.stat-badge:hover::before {
+    left: 100%;
+}
+
+/* Borde animado */
+.stat-badge::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, 
+        var(--shizen-red) 0%,
+        transparent 50%,
+        var(--shizen-red) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, 
+                  linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.stat-badge:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(232, 93, 93, 0.3);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(232, 93, 93, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.stat-badge:hover::after {
+    opacity: 1;
+}
+
+/* Contenido del badge */
+.stat-badge-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+}
+
+/* Icono con efecto */
+.stat-badge-icon {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: linear-gradient(135deg, 
+        rgba(232, 93, 93, 0.3) 0%,
+        rgba(232, 93, 93, 0.15) 100%
+    );
+    border: 1px solid rgba(232, 93, 93, 0.4);
+    position: relative;
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 0 20px rgba(232, 93, 93, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.stat-badge-icon::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, 
+        var(--shizen-red) 0%,
+        var(--shizen-red-light) 100%
+    );
+    opacity: 0;
+    filter: blur(12px);
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.stat-badge:hover .stat-badge-icon {
+    background: linear-gradient(135deg, 
+        rgba(232, 93, 93, 0.5) 0%,
+        rgba(232, 93, 93, 0.3) 100%
+    );
+    border-color: rgba(232, 93, 93, 0.6);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 
+        0 0 30px rgba(232, 93, 93, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.stat-badge:hover .stat-badge-icon::before {
+    opacity: 0.6;
+}
+
+.stat-badge-icon i {
+    width: 28px;
+    height: 28px;
+    color: var(--shizen-red);
+    filter: drop-shadow(0 2px 8px rgba(232, 93, 93, 0.4));
+    transition: all 0.3s ease;
+}
+
+.stat-badge:hover .stat-badge-icon i {
+    transform: scale(1.1);
+    filter: drop-shadow(0 4px 12px rgba(232, 93, 93, 0.6));
+}
+
+/* Info del badge */
+.stat-badge-info {
+    flex: 1;
+}
+
+.stat-badge-value {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        #ffffff 0%,
+        rgba(255, 255, 255, 0.9) 50%,
+        rgba(232, 93, 93, 0.8) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: var(--spacing-2);
+    animation: countUp 1s ease-out;
+    transition: transform 0.3s ease;
+}
+
+.stat-badge:hover .stat-badge-value {
+    transform: scale(1.05);
+}
+
+.stat-badge-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+}
+
+.stat-badge:hover .stat-badge-label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* ========================================
    RESPONSIVE
    ======================================== */
 
+@media (max-width: 1024px) {
+    .dashboard-hero {
+        padding: var(--spacing-8);
+    }
+    
+    .hero-content {
+        max-width: 60%;
+    }
+    
+    .shizen-symbol {
+        width: 320px;
+        right: 3%;
+    }
+}
+
 @media (max-width: 768px) {
-    .dashboard-grid {
+    .dashboard-hero {
+        padding: var(--spacing-6);
+        gap: var(--spacing-8);
+    }
+    
+    .hero-content {
+        max-width: 100%;
+    }
+    
+    .shizen-symbol {
+        width: 200px;
+        right: -30px;
+        opacity: 0.6;
+    }
+    
+    .hero-greeting {
+        font-size: 2.5rem;
+    }
+    
+    .zen-quote {
+        font-size: 1rem;
+    }
+    
+    .dashboard-stats {
         grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-greeting {
+        font-size: 2rem;
+    }
+    
+    .zen-quote-wrapper {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    
+    .stat-badge {
+        padding: var(--spacing-5);
+    }
+    
+    .shizen-symbol {
+        width: 150px;
+        right: -40px;
+        opacity: 0.4;
     }
 }

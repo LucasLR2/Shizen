@@ -102,6 +102,12 @@ function initializeDashboard() {
     updateStats();
     renderAccounts();
     renderNotes();
+
+    setTimeout(() => {
+        if (document.querySelector('.dashboard-hero')) {
+            initZenDashboard();
+        }
+    }, 100);
 }
 
 // ========================================
@@ -129,12 +135,12 @@ function setupEventListeners() {
         const settingsDropdown = document.getElementById('settingsDropdown');
         const userInfo = document.querySelector('.user-info');
         const hamburgerBtn = document.querySelector('.hamburger-btn');
-        
+
         // Cerrar profile dropdown si el click no es en user-info ni en el dropdown
         if (profileDropdown && userInfo && !userInfo.contains(e.target) && !profileDropdown.contains(e.target)) {
             profileDropdown.classList.remove('active');
         }
-        
+
         // Cerrar settings dropdown si el click no es en hamburger ni en el dropdown
         if (settingsDropdown && hamburgerBtn && !hamburgerBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
             settingsDropdown.classList.remove('active');
@@ -181,6 +187,10 @@ function showSection(sectionName) {
     const section = document.getElementById('section-' + sectionName);
     if (section) {
         section.classList.add('active');
+    }
+
+    if (sectionName === 'dashboard') {
+        setTimeout(refreshDashboard, 100);
     }
 }
 

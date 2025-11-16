@@ -148,4 +148,6 @@ function updateStats() {
     if (statsAccounts) statsAccounts.textContent = appData.accounts.length;
     if (statsClipboard) statsClipboard.textContent = temporaryClipboard.length + appData.clipboard.length;
     if (statsNotes) statsNotes.textContent = appData.notes.length;
+
+    updateDashboardStats();
 }

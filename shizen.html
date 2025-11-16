@@ -118,48 +118,76 @@
         <main class="content">
             <!-- Dashboard Section -->
             <section id="section-dashboard" class="section active">
-                <div class="section-header">
-                    <div class="section-title">
-                        <h1>Dashboard</h1>
-                        <p class="section-description">Resumen general de tu información</p>
-                    </div>
-                </div>
+                <div class="dashboard-container">
 
-                <div class="dashboard-grid">
-                    <div class="card stat-card">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #FF5252, #ff6b6b);">
-                            <i data-lucide="key"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="statsAccounts">0</div>
-                            <div class="stat-label">Cuentas guardadas</div>
-                        </div>
-                    </div>
+                    <!-- Hero Principal - Todo Integrado -->
+                    <div class="dashboard-hero">
 
-                    <div class="card stat-card">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #81C784, #66BB6A);">
-                            <i data-lucide="clipboard"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="statsClipboard">0</div>
-                            <div class="stat-label">Items en portapapeles</div>
-                        </div>
-                    </div>
+                        <!-- Partículas de pétalos -->
+                        <div class="hero-particles"></div>
 
-                    <div class="card stat-card">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #64B5F6, #42A5F5);">
-                            <i data-lucide="sticky-note"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="statsNotes">0</div>
-                            <div class="stat-label">Notas creadas</div>
-                        </div>
-                    </div>
-                </div>
+                        <!-- Símbolo Shizen a la derecha -->
+                        <img src="resources/simbolo.png" alt="Shizen Symbol" class="shizen-symbol">
 
-                <div class="card welcome-card">
-                    <h2>¡Bienvenido/a de vuelta, <span id="welcomeName">Usuario</span>!</h2>
-                    <p>Tu espacio personal para gestionar cuentas, portapapeles y notas de forma segura.</p>
+                        <!-- Contenido Superior -->
+                        <div class="hero-content">
+                            <h1 class="hero-greeting">
+                                Buenos días, <span class="hero-greeting-accent">Usuario</span>
+                            </h1>
+
+                            <div class="zen-quote-wrapper">
+                                <div class="zen-quote-content">
+                                    <p class="zen-quote">"La simplicidad es la máxima sofisticación"</p>
+                                    <p class="zen-quote-author">— Proverbio Zen</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="dashboard-stats">
+
+                            <!-- Badge: Cuentas -->
+                            <div class="stat-badge accounts">
+                                <div class="stat-badge-content">
+                                    <div class="stat-badge-icon">
+                                        <i data-lucide="key"></i>
+                                    </div>
+                                    <div class="stat-badge-info">
+                                        <div class="stat-badge-value">0</div>
+                                        <div class="stat-badge-label">Cuentas guardadas</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Badge: Portapapeles -->
+                            <div class="stat-badge clipboard">
+                                <div class="stat-badge-content">
+                                    <div class="stat-badge-icon">
+                                        <i data-lucide="clipboard"></i>
+                                    </div>
+                                    <div class="stat-badge-info">
+                                        <div class="stat-badge-value">0</div>
+                                        <div class="stat-badge-label">Items copiados</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Badge: Notas -->
+                            <div class="stat-badge notes">
+                                <div class="stat-badge-content">
+                                    <div class="stat-badge-icon">
+                                        <i data-lucide="file-text"></i>
+                                    </div>
+                                    <div class="stat-badge-info">
+                                        <div class="stat-badge-value">0</div>
+                                        <div class="stat-badge-label">Notas creadas</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
             </section>
 
@@ -769,6 +797,7 @@
     <script src="js/notes.js"></script>
     <script src="js/timer.js"></script>
     <script src="js/help.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 
 </html>
