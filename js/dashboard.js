@@ -79,23 +79,83 @@ function initZenDashboard() {
     animateStats();
 }
 
-// Saludo dinámico según la hora
+// Saludo dinámico según la hora con variaciones aleatorias
 function updateGreeting() {
     const hour = new Date().getHours();
     const greetingEl = document.querySelector('.hero-greeting');
     const userName = appData.profile.name || 'Usuario';
     
-    let greeting = '';
-    if (hour < 12) {
-        greeting = `Buenos días, ${userName}`;
-    } else if (hour < 18) {
-        greeting = `Buenas tardes, ${userName}`;
-    } else {
-        greeting = `Buenas noches, ${userName}`;
+    let greetings = [];
+    
+    // 🌙 Madrugada (0:00 - 5:59)
+    if (hour >= 0 && hour < 6) {
+        greetings = [
+            `Vaya, trabajando tarde, ${userName}?`,
+            `Aún despierto/a, ${userName}?`,
+            `Noche larga, eh ${userName}?`,
+            `Qué te trae por aquí a esta hora, ${userName}?`
+        ];
+    }
+    // 🌅 Amanecer (6:00 - 7:59)
+    else if (hour >= 6 && hour < 8) {
+        greetings = [
+            `Buen día, ${userName}`,
+            `Empezando temprano, ${userName}?`,
+            `Buenos días, ${userName}`,
+            `Madrugador/a hoy, ${userName}`
+        ];
+    }
+    // ☀️ Mañana (8:00 - 11:59)
+    else if (hour >= 8 && hour < 12) {
+        greetings = [
+            `Buenos días, ${userName}`,
+            `Hola, ${userName}`,
+            `Qué tal, ${userName}?`,
+            `Cómo va tu mañana, ${userName}?`
+        ];
+    }
+    // 🌤️ Mediodía (12:00 - 13:59)
+    else if (hour >= 12 && hour < 14) {
+        greetings = [
+            `Hola, ${userName}`,
+            `Ya es mediodía, ${userName}`,
+            `Qué tal, ${userName}?`,
+            `Hora de un descanso, ${userName}?`
+        ];
+    }
+    // Tarde (14:00 - 18:59)
+    else if (hour >= 14 && hour < 19) {
+        greetings = [
+            `Buenas tardes, ${userName}`,
+            `Hola, ${userName}`,
+            `Cómo va tu tarde, ${userName}?`,
+            `Qué tal todo, ${userName}?`
+        ];
+    }
+    // Atardecer (19:00 - 20:59)
+    else if (hour >= 19 && hour < 21) {
+        greetings = [
+            `Buenas noches, ${userName}`,
+            `Terminando el día, ${userName}?`,
+            `Cómo estuvo tu día, ${userName}?`,
+            `Ya casi noche, ${userName}`
+        ];
+    }
+    // Noche (21:00 - 23:59)
+    else {
+        greetings = [
+            `Buenas noches, ${userName}`,
+            `Hola, ${userName}`,
+            `Relajándote ya, ${userName}?`,
+            `Cómo va la noche, ${userName}?`
+        ];
     }
     
+    // Seleccionar un saludo aleatorio
+    const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+    
     if (greetingEl) {
-        greetingEl.textContent = greeting;
+        greetingEl.textContent = randomGreeting;
     }
 }
 
