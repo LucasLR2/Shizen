@@ -15,6 +15,17 @@
 }
 
 /* ========================================
+   DASHBOARD CONTENT
+   ======================================== */
+
+.content-dashboard {
+    flex: 1;
+    padding: var(--spacing-8);
+    overflow-y: auto;
+    background-image: url('../../resources/dashboard.png');
+}
+
+/* ========================================
    HERO PRINCIPAL
    ======================================== */
 

@@ -170,6 +170,17 @@ function setupEventListeners() {
 // ========================================
 
 function showSection(sectionName) {
+    const contentDashboard = document.querySelector('.content-dashboard');
+    const contentOther = document.querySelector('.content');
+    
+    if (sectionName === 'dashboard') {
+        contentDashboard.style.display = 'block';
+        contentOther.style.display = 'none';
+    } else {
+        contentDashboard.style.display = 'none';
+        contentOther.style.display = 'block';
+    }
+
     // Ocultar todas las secciones
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
