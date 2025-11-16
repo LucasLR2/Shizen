@@ -40,8 +40,8 @@
             <div class="header-nav-item" data-section="shop" id="navShop">
                 <span>Tienda</span>
             </div>
-            <div class="header-nav-item" data-section="configuration" id="navConfiguration">
-                <span>Configuración</span>
+            <div class="header-nav-item" data-section="missions" id="navMissions">
+                <span>Misiones</span>
             </div>
         </nav>
 
@@ -69,6 +69,10 @@
         </div>
 
         <div class="settings-dropdown" id="settingsDropdown">
+            <div class="dropdown-item" onclick="showSection('configuration')">
+                <i data-lucide="settings"></i>
+                <span>Configuración</span>
+            </div>
             <div class="dropdown-item" onclick="exportData()">
                 <i data-lucide="download"></i>
                 <span>Exportar datos</span>
@@ -418,6 +422,34 @@
                 </div>
             </section>
 
+            <!-- Shop Section -->
+            <section id="section-shop" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Tienda</h1>
+                        <p class="section-description">Explora y compra productos</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <p>Sección de tienda en desarrollo...</p>
+                </div>
+            </section>
+
+            <!-- Missons Section -->
+            <section id="section-missions" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Misiones</h1>
+                        <p class="section-description">Explora y completa misiones</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <p>Sección de misiones en desarrollo...</p>
+                </div>
+            </section>
+
             <!-- Profile Section -->
             <section id="section-profile" class="section">
                 <div class="section-header">
@@ -429,6 +461,20 @@
 
                 <div class="card">
                     <p>Sección de perfil en desarrollo...</p>
+                </div>
+            </section>
+
+            <!-- Configuration Section -->
+            <section id="section-configuration" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Configuración</h1>
+                        <p class="section-description">Configuración de la aplicación</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <p>Sección de configuración en desarrollo...</p>
                 </div>
             </section>
 
