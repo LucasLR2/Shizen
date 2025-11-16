@@ -147,7 +147,7 @@
                         <div class="dashboard-stats">
 
                             <!-- Badge: Cuentas -->
-                            <div class="stat-badge accounts">
+                            <div class="stat-badge accounts" data-section="accounts" onclick="showSection('accounts')">
                                 <div class="stat-badge-content">
                                     <div class="stat-badge-icon">
                                         <i data-lucide="key"></i>
@@ -160,7 +160,8 @@
                             </div>
 
                             <!-- Badge: Portapapeles -->
-                            <div class="stat-badge clipboard">
+                            <div class="stat-badge clipboard" data-section="clipboard"
+                                onclick="showSection('clipboard')">
                                 <div class="stat-badge-content">
                                     <div class="stat-badge-icon">
                                         <i data-lucide="clipboard"></i>
@@ -173,7 +174,7 @@
                             </div>
 
                             <!-- Badge: Notas -->
-                            <div class="stat-badge notes">
+                            <div class="stat-badge notes" data-section="notes" onclick="showSection('notes')">
                                 <div class="stat-badge-content">
                                     <div class="stat-badge-icon">
                                         <i data-lucide="file-text"></i>
@@ -190,7 +191,6 @@
                     </div>
                 </div>
             </section>
-
             <!-- Accounts Section -->
             <section id="section-accounts" class="section">
                 <div class="section-header">
