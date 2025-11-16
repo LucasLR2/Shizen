@@ -80,6 +80,7 @@ function initializeDashboard() {
 
     // Configurar event listeners
     setupEventListeners();
+    setupDropdownAutoClose();
 
     // Solicitar permisos de notificación
     if ('Notification' in window) {
@@ -163,6 +164,30 @@ function setupEventListeners() {
             closeSoundModal();
         }
     });
+}
+
+function setupDropdownAutoClose() {
+    // Cerrar profile dropdown al hacer click en cualquier opción
+    const profileDropdown = document.getElementById('profileDropdown');
+    if (profileDropdown) {
+        profileDropdown.addEventListener('click', function(e) {
+            // Si se hace click en un botón o enlace dentro del dropdown
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.dropdown-item')) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+    }
+
+    // Cerrar settings dropdown al hacer click en cualquier opción
+    const settingsDropdown = document.getElementById('settingsDropdown');
+    if (settingsDropdown) {
+        settingsDropdown.addEventListener('click', function(e) {
+            // Si se hace click en un botón o enlace dentro del dropdown
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.dropdown-item')) {
+                settingsDropdown.classList.remove('active');
+            }
+        });
+    }
 }
 
 // ========================================
