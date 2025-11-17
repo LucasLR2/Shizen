@@ -87,7 +87,7 @@ function updateGreeting() {
     
     let greetings = [];
     
-    // 🌙 Madrugada (0:00 - 5:59)
+    // Madrugada (0:00 - 5:59)
     if (hour >= 0 && hour < 6) {
         greetings = [
             `Vaya, trabajando tarde, ${userName}?`,
@@ -96,7 +96,7 @@ function updateGreeting() {
             `Qué te trae por aquí a esta hora, ${userName}?`
         ];
     }
-    // 🌅 Amanecer (6:00 - 7:59)
+    // Amanecer (6:00 - 7:59)
     else if (hour >= 6 && hour < 8) {
         greetings = [
             `Buen día, ${userName}`,
@@ -105,7 +105,7 @@ function updateGreeting() {
             `Madrugador/a hoy, ${userName}`
         ];
     }
-    // ☀️ Mañana (8:00 - 11:59)
+    // Mañana (8:00 - 11:59)
     else if (hour >= 8 && hour < 12) {
         greetings = [
             `Buenos días, ${userName}`,
@@ -114,7 +114,7 @@ function updateGreeting() {
             `Cómo va tu mañana, ${userName}?`
         ];
     }
-    // 🌤️ Mediodía (12:00 - 13:59)
+    // Mediodía (12:00 - 13:59)
     else if (hour >= 12 && hour < 14) {
         greetings = [
             `Hola, ${userName}`,
