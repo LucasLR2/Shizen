@@ -147,7 +147,7 @@ function setupEventListeners() {
                 }
 
                 e.stopPropagation();
-            }, true);
+            },true);
         }
 
         // Cerrar profile dropdown si el click no es en user-info ni en el dropdown

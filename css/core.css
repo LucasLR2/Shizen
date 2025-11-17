@@ -6,6 +6,20 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none; /* Prevenir selección de texto */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+}
+
+/* Permitir selección solo en inputs y textareas */
+input,
+textarea,
+[contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 
 /* ========================================
