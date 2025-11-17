@@ -136,6 +136,19 @@ function setupEventListeners() {
         const settingsDropdown = document.getElementById('settingsDropdown');
         const userInfo = document.querySelector('.user-info');
         const hamburgerBtn = document.querySelector('.hamburger-btn');
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', function (e) {
+                // Capturar el click sin importar dónde se haga dentro del botón
+                const dropdown = document.getElementById('settingsDropdown');
+                dropdown.classList.toggle('active');
+
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+
+                e.stopPropagation();
+            }, true);
+        }
 
         // Cerrar profile dropdown si el click no es en user-info ni en el dropdown
         if (profileDropdown && userInfo && !userInfo.contains(e.target) && !profileDropdown.contains(e.target)) {
@@ -170,7 +183,7 @@ function setupDropdownAutoClose() {
     // Cerrar profile dropdown al hacer click en cualquier opción
     const profileDropdown = document.getElementById('profileDropdown');
     if (profileDropdown) {
-        profileDropdown.addEventListener('click', function(e) {
+        profileDropdown.addEventListener('click', function (e) {
             // Si se hace click en un botón o enlace dentro del dropdown
             if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.dropdown-item')) {
                 profileDropdown.classList.remove('active');
@@ -181,7 +194,7 @@ function setupDropdownAutoClose() {
     // Cerrar settings dropdown al hacer click en cualquier opción
     const settingsDropdown = document.getElementById('settingsDropdown');
     if (settingsDropdown) {
-        settingsDropdown.addEventListener('click', function(e) {
+        settingsDropdown.addEventListener('click', function (e) {
             // Si se hace click en un botón o enlace dentro del dropdown
             if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.dropdown-item')) {
                 settingsDropdown.classList.remove('active');
@@ -197,7 +210,7 @@ function setupDropdownAutoClose() {
 function showSection(sectionName) {
     const contentDashboard = document.querySelector('.content-dashboard');
     const contentOther = document.querySelector('.content');
-    
+
     if (sectionName === 'dashboard') {
         contentDashboard.style.display = 'block';
         contentOther.style.display = 'none';
