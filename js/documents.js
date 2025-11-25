@@ -257,11 +257,11 @@ function openDocumentEditor(index = -1) {
                     
                     <div class="format-group">
                         <div class="color-picker-inline" title="Color de texto">
-                            <input type="color" id="textColorPicker" value="255, 255, 255, 1" 
+                            <input type="color" id="textColorPicker" value="#ffffff" 
                                    onchange="changeTextColor(this.value)">
                         </div>
                         <div class="color-picker-inline" title="Color de fondo">
-                            <input type="color" id="bgColorPicker" value="#000000ff" 
+                            <input type="color" id="bgColorPicker" value="#1a1a1a" 
                                    onchange="changeBackgroundColor(this.value)">
                         </div>
                     </div>
@@ -269,7 +269,7 @@ function openDocumentEditor(index = -1) {
                 
                 <!-- Content Area -->
                 <div class="editor-page-wrapper">
-                    <div class="editor-page" id="editorContent" contenteditable="true">${doc.content || ''}</div>
+                    <div class="editor-page" id="editorContent" contenteditable="true" style="color: #ffffff; background-color: #1a1a1a;">${doc.content || ''}</div>
                 </div>
                 
                 <!-- Footer -->
