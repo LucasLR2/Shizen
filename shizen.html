@@ -18,11 +18,12 @@
     <!-- CSS Sections -->
     <link rel="stylesheet" href="css/sections/dashboard.css">
     <link rel="stylesheet" href="css/sections/accounts.css">
-    <link rel="stylesheet" href="css/sections/notes.css">
+    <link rel="stylesheet" href="css/sections/documents.css">
     <link rel="stylesheet" href="css/sections/clipboard.css">
     <link rel="stylesheet" href="css/sections/timer.css">
     <link rel="stylesheet" href="css/sections/profile.css">
     <link rel="stylesheet" href="css/sections/help.css">
+    <link rel="stylesheet" href="css/plugins/editor.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -106,9 +107,9 @@
                     <i data-lucide="clipboard" class="nav-icon"></i>
                     <span class="nav-text">Portapapeles</span>
                 </div>
-                <div class="nav-item" data-section="notes" id="navNotesSidebar">
+                <div class="nav-item" data-section="documents" id="navDocumentsSidebar">
                     <i data-lucide="sticky-note" class="nav-icon"></i>
-                    <span class="nav-text">Notas</span>
+                    <span class="nav-text">Documentos</span>
                 </div>
                 <div class="nav-item" data-section="timer" id="navTimerSidebar">
                     <i data-lucide="timer" class="nav-icon"></i>
@@ -176,15 +177,16 @@
                                 </div>
                             </div>
 
-                            <!-- Badge: Notas -->
-                            <div class="stat-badge notes" data-section="notes" onclick="showSection('notes')">
+                            <!-- Badge: Documentos -->
+                            <div class="stat-badge documents" data-section="documents"
+                                onclick="showSection('documents')">
                                 <div class="stat-badge-content">
                                     <div class="stat-badge-icon">
                                         <i data-lucide="file-text"></i>
                                     </div>
                                     <div class="stat-badge-info">
                                         <div class="stat-badge-value">0</div>
-                                        <div class="stat-badge-label">Notas creadas</div>
+                                        <div class="stat-badge-label">Documentos creados</div>
                                     </div>
                                 </div>
                             </div>
@@ -216,23 +218,8 @@
                 </div>
             </section>
 
-            <!-- Notes Section -->
-            <section id="section-notes" class="section">
-                <div class="section-header">
-                    <div class="section-title">
-                        <h1>Notas</h1>
-                        <p class="section-description">Tus apuntes y recordatorios</p>
-                    </div>
-                    <button class="btn-primary" onclick="openNoteModal()">
-                        <i data-lucide="plus"></i>
-                        Nueva nota
-                    </button>
-                </div>
-
-                <div id="notesList" class="notes-grid">
-                    <!-- Notes will be rendered here -->
-                </div>
-            </section>
+            <!-- Documents Section -->
+            <section id="section-documents" class="section"></section>
 
             <!-- Clipboard Section -->
             <section id="section-clipboard" class="section">
@@ -614,7 +601,7 @@
                     <div class="help-category">
                         <h2 class="help-category-title">
                             <i data-lucide="sticky-note"></i>
-                            Notas
+                            Documentos
                         </h2>
 
                         <div class="faq-item">
@@ -624,12 +611,12 @@
                             </div>
                             <div class="faq-answer">
                                 <ol>
-                                    <li>Ve a la sección de Notas</li>
-                                    <li>Click en "Nueva nota"</li>
+                                    <li>Ve a la sección de Documentos</li>
+                                    <li>Click en "Nuevo documento"</li>
                                     <li>Escribe un título y contenido</li>
                                     <li>Click en "Guardar"</li>
                                 </ol>
-                                <p>Las notas se guardan automáticamente con fecha y hora.</p>
+                                <p>Los documentos se guardan automáticamente con fecha y hora.</p>
                             </div>
                         </div>
                     </div>
@@ -798,8 +785,8 @@
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Notas (opcional)</label>
-                    <textarea id="accountNotes" class="input" rows="3"
+                    <label>Documentos (opcional)</label>
+                    <textarea id="accountDocuments" class="input" rows="3"
                         placeholder="Información adicional..."></textarea>
                 </div>
             </div>
@@ -810,28 +797,62 @@
         </div>
     </div>
 
-    <!-- Note Modal -->
-    <div id="noteModal" class="modal">
+    <!-- Folder Modal -->
+    <div id="folderModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="noteModalTitle">Nueva Nota</h2>
-                <button class="modal-close" onclick="closeNoteModal()">
+                <h2 id="folderModalTitle">Nueva Carpeta</h2>
+                <button class="modal-close" onclick="closeFolderModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Nombre de la carpeta</label>
+                    <input type="text" id="folderName" class="input" placeholder="Ej: Trabajo, Personal, Estudios">
+                </div>
+                <div class="input-group">
+                    <label>Descripción (opcional)</label>
+                    <textarea id="folderDescription" class="input" rows="3"
+                        placeholder="Descripción de la carpeta..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeFolderModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveFolder()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Modal (Simple) -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="documentModalTitle">Nuevo Documento</h2>
+                <button class="modal-close" onclick="closeDocumentModal()">
                     <i data-lucide="x"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="input-group">
                     <label>Título</label>
-                    <input type="text" id="noteTitle" class="input" placeholder="Título de la nota">
+                    <input type="text" id="documentTitle" class="input" placeholder="Título del documento">
+                </div>
+                <div class="input-group">
+                    <label>Carpeta</label>
+                    <select id="documentFolder" class="input">
+                        <option value="">Sin carpeta</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label>Contenido</label>
-                    <textarea id="noteContent" class="input" rows="8" placeholder="Escribe tu nota aquí..."></textarea>
+                    <textarea id="documentContent" class="input" rows="8"
+                        placeholder="Escribe tu documento aquí..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeNoteModal()">Cancelar</button>
-                <button class="btn-primary" onclick="saveNote()">Guardar</button>
+                <button class="btn-secondary" onclick="closeDocumentModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveDocument()">Guardar</button>
             </div>
         </div>
     </div>
@@ -843,7 +864,7 @@
     <!-- JavaScript Modules -->
     <script src="js/accounts.js"></script>
     <script src="js/clipboard.js"></script>
-    <script src="js/notes.js"></script>
+    <script src="js/documents.js"></script>
     <script src="js/timer.js"></script>
     <script src="js/help.js"></script>
     <script src="js/dashboard.js"></script>

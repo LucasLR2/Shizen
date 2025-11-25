@@ -102,7 +102,7 @@ function initializeDashboard() {
     // Actualizar estadísticas y renderizar contenido
     updateStats();
     renderAccounts();
-    renderNotes();
+    initializeDocuments();
 
     setTimeout(() => {
         if (document.querySelector('.dashboard-hero')) {

@@ -1,0 +1,233 @@
+/* ========================================
+   DOCUMENTS - DISEÑO LIMPIO Y SIMPLE
+   ======================================== */
+
+/* ========================================
+   HEADER PRINCIPAL
+   ======================================== */
+
+.documents-main-header {
+    margin-bottom: var(--spacing-8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-4);
+}
+
+.documents-header-left {
+    flex: 1;
+}
+
+.documents-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-2);
+}
+
+.documents-subtitle {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   SECCIÓN DE DOCUMENTOS
+   ======================================== */
+
+.documents-section {
+    margin-bottom: var(--spacing-8);
+}
+
+.documents-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.document-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-5);
+    background: rgba(30, 30, 30, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.document-item:hover {
+    background: rgba(40, 40, 40, 0.6);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.document-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    transition: var(--transition-normal);
+}
+
+.document-item:hover .document-icon {
+    background: rgba(255, 82, 82, 0.15);
+    color: var(--accent-primary);
+}
+
+.document-icon i {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.document-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.document-name {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: var(--spacing-1);
+}
+
+.document-meta {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* Menú de 3 puntos */
+.document-menu-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: var(--spacing-2);
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.document-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.document-menu-btn i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Dropdown del menú */
+.document-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + var(--spacing-2));
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 1000;
+    min-width: 180px;
+    padding: var(--spacing-2);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-fast);
+}
+
+.document-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3) var(--spacing-4);
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+    font-size: var(--font-size-sm);
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.menu-item.danger:hover {
+    background: rgba(255, 82, 82, 0.15);
+    color: var(--accent-primary);
+}
+
+.menu-item i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* ========================================
+   ESTADO VACÍO
+   ======================================== */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16) var(--spacing-8);
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.empty-state i {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: var(--spacing-6);
+    opacity: 0.3;
+}
+
+.empty-state p {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-2);
+}
+
+.empty-state-hint {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .document-item {
+        padding: var(--spacing-3);
+    }
+    
+    .btn-floating {
+        bottom: var(--spacing-6);
+        right: var(--spacing-6);
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+    
+    .btn-floating i {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+}
