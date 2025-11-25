@@ -90,54 +90,42 @@ function updateGreeting() {
     // Madrugada (0:00 - 5:59)
     if (hour >= 0 && hour < 6) {
         greetings = [
-            `Vaya, trabajando tarde, ${userName}?`,
             `Aún despierto/a, ${userName}?`,
             `Noche larga, eh ${userName}?`,
-            `Qué te trae por aquí a esta hora, ${userName}?`
         ];
     }
     // Amanecer (6:00 - 7:59)
     else if (hour >= 6 && hour < 8) {
         greetings = [
-            `Buen día, ${userName}`,
             `Empezando temprano, ${userName}?`,
             `Buenos días, ${userName}`,
-            `Madrugador/a hoy, ${userName}`
         ];
     }
     // Mañana (8:00 - 11:59)
     else if (hour >= 8 && hour < 12) {
         greetings = [
-            `Buenos días, ${userName}`,
             `Hola, ${userName}`,
             `Qué tal, ${userName}?`,
-            `Cómo va tu mañana, ${userName}?`
         ];
     }
     // Mediodía (12:00 - 13:59)
     else if (hour >= 12 && hour < 14) {
         greetings = [
-            `Hola, ${userName}`,
             `Ya es mediodía, ${userName}`,
             `Qué tal, ${userName}?`,
-            `Hora de un descanso, ${userName}?`
         ];
     }
     // Tarde (14:00 - 18:59)
     else if (hour >= 14 && hour < 19) {
         greetings = [
             `Buenas tardes, ${userName}`,
-            `Hola, ${userName}`,
-            `Cómo va tu tarde, ${userName}?`,
             `Qué tal todo, ${userName}?`
         ];
     }
     // Atardecer (19:00 - 20:59)
     else if (hour >= 19 && hour < 21) {
         greetings = [
-            `Buenas noches, ${userName}`,
-            `Terminando el día, ${userName}?`,
-            `Cómo estuvo tu día, ${userName}?`,
+            `Terminando eh, ${userName}`,
             `Ya casi noche, ${userName}`
         ];
     }
@@ -145,9 +133,7 @@ function updateGreeting() {
     else {
         greetings = [
             `Buenas noches, ${userName}`,
-            `Hola, ${userName}`,
-            `Relajándote ya, ${userName}?`,
-            `Cómo va la noche, ${userName}?`
+            `Bastante tarde, ${userName}`,
         ];
     }
     
