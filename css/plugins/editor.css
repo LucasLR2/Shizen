@@ -1,5 +1,5 @@
 /* ========================================
-   EDITOR DE DOCUMENTOS - ESTILO WORD
+   EDITOR DE DOCUMENTOS
    ======================================== */
 
 /* ========================================
@@ -268,8 +268,8 @@
     overflow-y: auto;
     background: #0a0a0a;
     padding: var(--spacing-10) var(--spacing-8);
-    display: flex;
-    justify-content: center;
+    display: block;
+    text-align: center;
 }
 
 .editor-page-wrapper::-webkit-scrollbar {
@@ -292,7 +292,7 @@
 .editor-page {
     width: 100%;
     max-width: 850px;
-    min-height: calc(100vh - 300px);
+    min-height: 1200px;
     background: #ffffff;
     padding: var(--spacing-16) var(--spacing-12);
     border-radius: var(--radius-md);
@@ -301,6 +301,10 @@
     line-height: 1.8;
     color: #1a1a1a;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: inline-block;
+    text-align: left;
 }
 
 .editor-page:focus {

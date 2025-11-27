@@ -408,6 +408,32 @@ function updateWordCount() {
     document.getElementById('charCount').textContent = `${chars} caracter${chars !== 1 ? 'es' : ''}`;
 }
 
+function checkAndAddNewPage() {
+    const pages = document.querySelectorAll('.editor-page');
+    const lastPage = pages[pages.length - 1];
+    
+    // Si la última página tiene contenido que excede su altura
+    if (lastPage.scrollHeight > lastPage.clientHeight - 100) {
+        // Crear nueva página
+        const newPage = document.createElement('div');
+        newPage.className = 'editor-page';
+        newPage.contentEditable = 'true';
+        newPage.style.color = lastPage.style.color;
+        newPage.style.backgroundColor = lastPage.style.backgroundColor;
+        
+        // Agregar event listeners a la nueva página
+        newPage.addEventListener('input', () => {
+            updateWordCount();
+            triggerAutoSave();
+            checkAndAddNewPage();
+        });
+        
+        // Insertar después de la última página
+        const wrapper = document.querySelector('.editor-page-wrapper');
+        wrapper.appendChild(newPage);
+    }
+}
+
 // ========================================
 // EXPORTAR
 // ========================================
