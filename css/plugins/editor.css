@@ -187,32 +187,145 @@
     background: var(--border-primary);
 }
 
-/* Color Pickers */
-.color-picker-inline {
+/* Botones de color con indicadores */
+.color-btn-wrapper {
     position: relative;
-    width: 2.25rem;
-    height: 2.25rem;
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    cursor: pointer;
-    transition: var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.color-picker-inline:hover {
+.color-btn {
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: var(--spacing-2);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    position: relative;
+}
+
+.color-btn:hover {
+    background: var(--bg-tertiary);
     border-color: var(--accent-primary);
     transform: scale(1.05);
 }
 
-.color-picker-inline input[type="color"] {
+/* Input de color oculto */
+.color-input-hidden {
     position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Botón dropdown para seleccionar color */
+.color-dropdown-btn {
+    position: absolute;
+    right: 0;
     top: 0;
-    left: 0;
-    width: 100%;
+    width: 1rem;
     height: 100%;
+    background: transparent;
     border: none;
+    border-left: 1px solid var(--border-primary);
     cursor: pointer;
-    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+    padding: 0;
+}
+
+.color-dropdown-btn:hover {
+    background: var(--bg-tertiary);
+}
+
+.color-dropdown-btn i {
+    width: 0.625rem;
+    height: 0.625rem;
+}
+
+/* Ajustar el botón principal para hacer espacio */
+.color-btn-wrapper .color-btn {
+    width: 3rem;
+    padding-right: 1.25rem;
+}
+
+/* Botones de color con indicadores */
+.color-btn-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.color-btn {
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: var(--spacing-2);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    position: relative;
+}
+
+.color-btn:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--accent-primary);
+    transform: scale(1.05);
+}
+
+/* Indicador T para color de texto */
+.text-color-indicator {
+    font-size: 1.125rem;
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+/* Ícono de marcador */
+.highlighter-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    transition: all 0.2s ease;
+}
+
+/* El fill del marcador cambia de color */
+.highlighter-icon rect {
+    transition: fill 0.2s ease;
+}
+/* Barra de color debajo del marcador */
+.color-indicator-bar {
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 3px;
+    border-radius: 2px;
+    transition: background-color 0.2s ease;
+}
+
+/* Input de color oculto */
+.color-input-hidden {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
 }
 
 /* Selector de Fuente */

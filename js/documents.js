@@ -17,11 +17,11 @@ function initializeDocuments() {
             ...note
         }));
     }
-    
+
     if (!appData.documents) {
         appData.documents = [];
     }
-    
+
     renderDocuments();
     setupDocumentClickOutside();
 }
@@ -33,9 +33,9 @@ function initializeDocuments() {
 function renderDocuments() {
     const section = document.getElementById('section-documents');
     if (!section) return;
-    
+
     let html = '';
-    
+
     // Header con título y botón
     html += `
         <div class="documents-main-header">
@@ -49,14 +49,14 @@ function renderDocuments() {
             </button>
         </div>
     `;
-    
+
     // Documentos
     const docs = appData.documents;
-    
+
     if (docs.length > 0) {
         html += '<div class="documents-section">';
         html += '<div class="documents-list">';
-        
+
         docs.forEach(doc => {
             const docIndex = appData.documents.indexOf(doc);
             html += `
@@ -88,11 +88,11 @@ function renderDocuments() {
                 </div>
             `;
         });
-        
+
         html += '</div>'; // documents-list
         html += '</div>'; // documents-section
     }
-    
+
     // Estado vacío
     if (docs.length === 0) {
         html += `
@@ -103,13 +103,13 @@ function renderDocuments() {
             </div>
         `;
     }
-    
+
     section.innerHTML = html;
-    
+
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
-    
+
     updateDocumentsStats();
 }
 
@@ -119,15 +119,15 @@ function renderDocuments() {
 
 function toggleDocumentMenu(event, index) {
     event.stopPropagation();
-    
+
     const menu = document.getElementById(`docMenu${index}`);
     const wasOpen = menu.classList.contains('active');
-    
+
     // Cerrar todos los menús
     document.querySelectorAll('.document-menu').forEach(m => {
         m.classList.remove('active');
     });
-    
+
     // Abrir este menú si no estaba abierto
     if (!wasOpen) {
         menu.classList.add('active');
@@ -154,13 +154,13 @@ function setupDocumentClickOutside() {
 
 function openDocumentEditor(index = -1) {
     currentDocIndex = index;
-    
+
     const isNew = index === -1;
     const doc = isNew ? {
         title: '',
         content: ''
     } : appData.documents[index];
-    
+
     const editorHTML = `
         <div class="document-editor-modal active" id="documentEditorModal">
             <div class="editor-container">
@@ -187,28 +187,6 @@ function openDocumentEditor(index = -1) {
                 
                 <!-- Format Bar -->
                 <div class="editor-format-bar">
-                    <div class="format-group">
-                        <select class="font-selector" id="fontSelector" onchange="changeFont(this.value)">
-                            <option value="Inter">Inter</option>
-                            <option value="Arial">Arial</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Courier New">Courier New</option>
-                            <option value="Verdana">Verdana</option>
-                        </select>
-                        <select class="size-selector" id="sizeSelector" onchange="changeFontSize(this.value)">
-                            <option value="12px">12</option>
-                            <option value="14px">14</option>
-                            <option value="16px" selected>16</option>
-                            <option value="18px">18</option>
-                            <option value="20px">20</option>
-                            <option value="24px">24</option>
-                            <option value="28px">28</option>
-                            <option value="32px">32</option>
-                        </select>
-                    </div>
-                    
-                    <div class="format-divider"></div>
                     
                     <div class="format-group">
                         <button class="format-btn" onclick="formatText('bold')" title="Negrita (Ctrl+B)">
@@ -256,13 +234,28 @@ function openDocumentEditor(index = -1) {
                     <div class="format-divider"></div>
                     
                     <div class="format-group">
-                        <div class="color-picker-inline" title="Color de texto">
-                            <input type="color" id="textColorPicker" value="#ffffff" 
-                                   onchange="changeTextColor(this.value)">
+                        <!-- Color de texto -->
+                        <div class="color-btn-wrapper" title="Color de texto">
+                            <button class="color-btn" onclick="applyTextColor()">
+                                <span class="text-color-indicator" id="textColorIndicator" style="color: #f2f2f2ff;">A</span>
+                                <button class="color-dropdown-btn" onclick="event.stopPropagation(); document.getElementById('textColorPicker').click()">
+                                    <i data-lucide="chevron-down"></i>
+                                </button>
+                            </button>
+                            <input type="color" id="textColorPicker" class="color-input-hidden" value="#f2f2f2ff" 
+                                onchange="updateTextColor(this.value)">
                         </div>
-                        <div class="color-picker-inline" title="Color de fondo">
-                            <input type="color" id="bgColorPicker" value="#1a1a1a" 
-                                   onchange="changeBackgroundColor(this.value)">
+
+                        <!-- Resaltador -->
+                        <div class="color-btn-wrapper" title="Resaltar texto">
+                            <button class="color-btn" onclick="applyHighlightColor()">
+                                <i data-lucide="highlighter" class="highlighter-icon" id="highlighterIcon" style="color: #e73434ff;"></i>
+                                <button class="color-dropdown-btn" onclick="event.stopPropagation(); document.getElementById('highlightColorPicker').click()">
+                                    <i data-lucide="chevron-down"></i>
+                                </button>
+                            </button>
+                            <input type="color" id="highlightColorPicker" class="color-input-hidden" value="#e73434ff" 
+                                onchange="updateHighlightColor(this.value)">
                         </div>
                     </div>
                 </div>
@@ -283,28 +276,28 @@ function openDocumentEditor(index = -1) {
             </div>
         </div>
     `;
-    
+
     const existing = document.getElementById('documentEditorModal');
     if (existing) existing.remove();
-    
+
     document.body.insertAdjacentHTML('beforeend', editorHTML);
-    
+
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
-    
+
     // Event listeners
     const titleInput = document.getElementById('editorTitle');
     const contentDiv = document.getElementById('editorContent');
-    
+
     titleInput.addEventListener('input', triggerAutoSave);
     contentDiv.addEventListener('input', () => {
         updateWordCount();
         triggerAutoSave();
     });
-    
+
     updateWordCount();
-    
+
     if (isNew) {
         setTimeout(() => titleInput.focus(), 100);
     }
@@ -327,7 +320,7 @@ function closeDocumentEditor() {
 function triggerAutoSave() {
     const status = document.getElementById('autoSaveStatus');
     if (status) status.textContent = 'Guardando...';
-    
+
     clearTimeout(autoSaveTimeout);
     autoSaveTimeout = setTimeout(() => {
         autoSaveDocument();
@@ -338,33 +331,33 @@ function triggerAutoSave() {
 function autoSaveDocument() {
     const title = document.getElementById('editorTitle').value.trim();
     const content = document.getElementById('editorContent').innerHTML;
-    
+
     if (!title && !content) return;
-    
+
     const doc = {
         title: title || 'Sin título',
         content,
         createdAt: currentDocIndex >= 0 ? appData.documents[currentDocIndex].createdAt : new Date().toISOString()
     };
-    
+
     if (currentDocIndex >= 0) {
         appData.documents[currentDocIndex] = doc;
     } else {
         appData.documents.push(doc);
         currentDocIndex = appData.documents.length - 1;
     }
-    
+
     saveToSession();
 }
 
 function saveDocumentFromEditor() {
     const title = document.getElementById('editorTitle').value.trim();
-    
+
     if (!title) {
         showNotification('El documento necesita un título', 'error');
         return;
     }
-    
+
     autoSaveDocument();
     showNotification('Documento guardado', 'success');
     closeDocumentEditor();
@@ -390,20 +383,53 @@ function changeFontSize(size) {
     document.getElementById('editorContent').focus();
 }
 
-function changeTextColor(color) {
-    document.execCommand('foreColor', false, color);
+function changeHighlightColor(color) {
+    document.execCommand('hiliteColor', false, color);
+    const indicator = document.getElementById('highlightColorIndicator');
+    if (indicator) {
+        indicator.style.backgroundColor = color;
+    }
     document.getElementById('editorContent').focus();
 }
 
-function changeBackgroundColor(color) {
-    document.getElementById('editorContent').style.backgroundColor = color;
+// Variables para almacenar los colores seleccionados
+let currentTextColor = '#f2f2f2ff';
+let currentHighlightColor = '#e73434ff';
+
+// Actualizar el color seleccionado (cuando usas el picker)
+function updateTextColor(color) {
+    currentTextColor = color;
+    const indicator = document.getElementById('textColorIndicator');
+    if (indicator) {
+        indicator.style.color = color;
+    }
+}
+
+function updateHighlightColor(color) {
+    currentHighlightColor = color;
+    const icon = document.getElementById('highlighterIcon');
+    if (icon) {
+        icon.style.color = color;
+        icon.style.stroke = color;
+    }
+}
+
+// Aplicar el color actual al texto seleccionado (cuando haces clic en el botón)
+function applyTextColor() {
+    document.execCommand('foreColor', false, currentTextColor);
+    document.getElementById('editorContent').focus();
+}
+
+function applyHighlightColor() {
+    document.execCommand('hiliteColor', false, currentHighlightColor);
+    document.getElementById('editorContent').focus();
 }
 
 function updateWordCount() {
     const content = document.getElementById('editorContent').innerText;
     const words = content.trim().split(/\s+/).filter(w => w.length > 0).length;
     const chars = content.length;
-    
+
     document.getElementById('wordCount').textContent = `${words} palabra${words !== 1 ? 's' : ''}`;
     document.getElementById('charCount').textContent = `${chars} caracter${chars !== 1 ? 'es' : ''}`;
 }
@@ -411,7 +437,7 @@ function updateWordCount() {
 function checkAndAddNewPage() {
     const pages = document.querySelectorAll('.editor-page');
     const lastPage = pages[pages.length - 1];
-    
+
     // Si la última página tiene contenido que excede su altura
     if (lastPage.scrollHeight > lastPage.clientHeight - 100) {
         // Crear nueva página
@@ -420,14 +446,14 @@ function checkAndAddNewPage() {
         newPage.contentEditable = 'true';
         newPage.style.color = lastPage.style.color;
         newPage.style.backgroundColor = lastPage.style.backgroundColor;
-        
+
         // Agregar event listeners a la nueva página
         newPage.addEventListener('input', () => {
             updateWordCount();
             triggerAutoSave();
             checkAndAddNewPage();
         });
-        
+
         // Insertar después de la última página
         const wrapper = document.querySelector('.editor-page-wrapper');
         wrapper.appendChild(newPage);
@@ -441,7 +467,7 @@ function checkAndAddNewPage() {
 function exportDocument(index) {
     const doc = appData.documents[index];
     const content = doc.content.replace(/<[^>]*>/g, '\n').replace(/\n+/g, '\n');
-    
+
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -449,7 +475,7 @@ function exportDocument(index) {
     a.download = `${doc.title}.txt`;
     a.click();
     URL.revokeObjectURL(url);
-    
+
     showNotification('Documento exportado', 'success');
 }
 
