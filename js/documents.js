@@ -421,7 +421,39 @@ function applyTextColor() {
 }
 
 function applyHighlightColor() {
-    document.execCommand('hiliteColor', false, currentHighlightColor);
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+    
+    const range = selection.getRangeAt(0);
+    const selectedText = range.toString();
+    
+    if (!selectedText) return;
+    
+    // Verificar si el texto seleccionado ya tiene resaltado
+    const parentElement = range.commonAncestorContainer.parentElement;
+    
+    // Buscar si hay un elemento con background-color en el ancestro
+    let hasHighlight = false;
+    let currentElement = parentElement;
+    
+    while (currentElement && currentElement !== document.getElementById('editorContent')) {
+        const bgColor = window.getComputedStyle(currentElement).backgroundColor;
+        if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent' && bgColor !== 'rgb(26, 26, 26)') {
+            hasHighlight = true;
+            break;
+        }
+        currentElement = currentElement.parentElement;
+    }
+    
+    if (hasHighlight) {
+        // Quitar el resaltado
+        document.execCommand('removeFormat', false, null);
+        document.execCommand('hiliteColor', false, 'transparent');
+    } else {
+        // Aplicar el resaltado
+        document.execCommand('hiliteColor', false, currentHighlightColor);
+    }
+    
     document.getElementById('editorContent').focus();
 }
 
