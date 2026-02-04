@@ -8,17 +8,21 @@ let appData = {
 
 let cropperData = { x: 50, y: 50, size: 200, imageData: null };
 
-// Startup functions
-function showWelcome() {
-    document.getElementById('welcomeButtons').classList.remove('hidden');
-    document.getElementById('loadAccountForm').classList.add('hidden');
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setupFileUpload();
+});
+
+// Navigation functions
+function showLoadAccount() {
+    document.getElementById('loadAccountForm').classList.remove('hidden');
     document.getElementById('createAccountForm').classList.add('hidden');
 }
 
-function showLoadAccount() {
-    document.getElementById('welcomeButtons').classList.add('hidden');
-    document.getElementById('loadAccountForm').classList.remove('hidden');
-    setupFileUpload();
+function showCreateAccount() {
+    document.getElementById('loadAccountForm').classList.add('hidden');
+    document.getElementById('createAccountForm').classList.remove('hidden');
+    initCropper();
 }
 
 function setupFileUpload() {
@@ -31,11 +35,13 @@ function setupFileUpload() {
         fileInput.click();
     });
 
-    // File selected
+    // File selected - Auto load
     fileInput.addEventListener('change', (e) => {
         if (e.target.files.length > 0) {
             fileSelected.textContent = `✓ ${e.target.files[0].name}`;
             fileSelected.classList.add('show');
+            // Auto load the account
+            loadAccount();
         }
     });
 
@@ -58,14 +64,12 @@ function setupFileUpload() {
             fileInput.files = files;
             fileSelected.textContent = `✓ ${files[0].name}`;
             fileSelected.classList.add('show');
+            // Auto load the account
+            loadAccount();
+        } else {
+            showNotification('Por favor selecciona un archivo JSON válido', 'error');
         }
     });
-}
-
-function showCreateAccount() {
-    document.getElementById('welcomeButtons').classList.add('hidden');
-    document.getElementById('createAccountForm').classList.remove('hidden');
-    initCropper();
 }
 
 function initCropper() {
@@ -214,6 +218,9 @@ function loadAccount() {
             }, 1000);
         } catch (error) {
             showNotification('Error al cargar el archivo', 'error');
+            // Limpiar el input y mensaje si hay error
+            document.getElementById('loadFile').value = '';
+            document.getElementById('fileSelected').classList.remove('show');
         }
     };
     reader.readAsText(file);

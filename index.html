@@ -24,14 +24,9 @@
                 <div class="welcome-card">
                     <div class="startup-modal-title">Comenzar</div>
                     
-                    <div class="welcome-buttons" id="welcomeButtons">
-                        <button class="btn-primary" onclick="showLoadAccount()">Cargar cuenta</button>
-                        <button class="btn-primary" onclick="showCreateAccount()">Crear cuenta</button>
-                    </div>
-
-                    <div id="loadAccountForm" class="hidden">
+                    <!-- Load Account Form - Always visible -->
+                    <div id="loadAccountForm">
                         <div class="input-group">
-                            <label style="margin-bottom: var(--spacing-4); display: block;">Selecciona tu archivo de cuenta</label>
                             <div class="file-upload-area" id="fileUploadArea">
                                 <input type="file" id="loadFile" accept=".json" class="file-input-hidden">
                                 <div class="upload-icon">
@@ -46,12 +41,14 @@
                                 ✓ Archivo seleccionado
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <button class="btn-primary" onclick="showWelcome()">Volver</button>
-                            <button class="btn-primary" onclick="loadAccount()">Cargar</button>
+                        
+                        <!-- Create account link -->
+                        <div class="create-account-link">
+                            ¿No tienes una cuenta? <a href="#" onclick="showCreateAccount(); return false;">Créala aquí</a>
                         </div>
                     </div>
 
+                    <!-- Create Account Form - Hidden by default -->
                     <div id="createAccountForm" class="hidden">
                         <div class="input-group">
                             <label>Nombre completo</label>
@@ -79,7 +76,7 @@
                         </div>
                         
                         <div class="form-actions">
-                            <button class="btn-primary" onclick="showWelcome()">Volver</button>
+                            <button class="btn-primary" onclick="showLoadAccount()">Volver</button>
                             <button class="btn-primary" onclick="createAccount()">Crear cuenta</button>
                         </div>
                     </div>
