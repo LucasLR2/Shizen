@@ -2,28 +2,54 @@
 // RENDERIZAR CUENTAS
 // ========================================
 
+let currentSearchTerm = '';
+
 function renderAccounts() {
     const accountsList = document.getElementById('accountsList');
+    const searchInput = document.getElementById('accountsSearch');
+    const clearBtn = document.getElementById('searchClearBtn');
 
     if (!accountsList) return;
 
-    if (appData.accounts.length === 0) {
-        accountsList.innerHTML = `
-            <div class="empty-state">
-                <i data-lucide="key"></i>
-                <h3>No hay cuentas guardadas</h3>
-                <p>Comienza agregando tu primera cuenta</p>
-            </div>
-        `;
+    // Filtrar cuentas según el término de búsqueda
+    let filteredAccounts = appData.accounts;
+    
+    if (currentSearchTerm) {
+        filteredAccounts = appData.accounts.filter(account => {
+            const searchLower = currentSearchTerm.toLowerCase();
+            return account.platform.toLowerCase().includes(searchLower) ||
+                   account.username.toLowerCase().includes(searchLower);
+        });
+    }
+
+    if (filteredAccounts.length === 0) {
+        if (currentSearchTerm) {
+            accountsList.innerHTML = `
+                <div class="empty-state">
+                    <i data-lucide="search"></i>
+                    <h3>No se encontraron resultados</h3>
+                    <p>No hay cuentas que coincidan con "${currentSearchTerm}"</p>
+                </div>
+            `;
+        } else {
+            accountsList.innerHTML = `
+                <div class="empty-state">
+                    <i data-lucide="key"></i>
+                    <h3>No hay cuentas guardadas</h3>
+                    <p>Comienza agregando tu primera cuenta</p>
+                </div>
+            `;
+        }
     } else {
         // Agrupar cuentas por categoría
         const grouped = {};
-        appData.accounts.forEach((account, index) => {
+        filteredAccounts.forEach((account) => {
+            const originalIndex = appData.accounts.indexOf(account);
             const category = account.platform.toLowerCase();
             if (!grouped[category]) {
                 grouped[category] = [];
             }
-            grouped[category].push({ account, originalIndex: index });
+            grouped[category].push({ account, originalIndex });
         });
 
         // Ordenar categorías por cantidad (ascendente: menos cuentas primero)
@@ -290,3 +316,28 @@ function updateSelectedSuggestion(items, index) {
         }
     });
 }
+
+// ========================================
+// BÚSQUEDA DE CUENTAS
+// ========================================
+
+function initAccountsSearch() {
+    const searchInput = document.getElementById('accountsSearch');
+
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function() {
+        currentSearchTerm = this.value.trim();
+        renderAccounts();
+    });
+
+    // Inicializar íconos de Lucide
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+// Inicializar búsqueda cuando se muestre la sección de cuentas
+document.addEventListener('DOMContentLoaded', function() {
+    initAccountsSearch();
+});
